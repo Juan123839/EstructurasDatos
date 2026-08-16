@@ -72,6 +72,20 @@ int main() {
             cout << "Comando inicializar: reconocido" << endl;
             continue;
         }
+        if (tokens[0] == "ayuda") {
+            if (tokens.size() != 1) {
+                cout << "Error de uso. Uso correcto: ayuda" << endl;
+                continue;
+            }
+            cout << "Comandos disponibles:" << endl;
+            cout << "inicializar archivo_inicio" << endl;
+            cout << "estado_juego" << endl;
+            cout << "atacar nombre_jugador" << endl;
+            cout << "costo_conquista nombre_jugador territorio" << endl;
+            cout << "salir" << endl;
+            continue;
+        }
+        
         cout << "Error: El comando '" << tokens[0] << "' no es reconocido" << endl;
     }
     
