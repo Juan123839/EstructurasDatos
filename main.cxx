@@ -72,17 +72,117 @@ int main() {
             cout << "Comando inicializar: reconocido" << endl;
             continue;
         }
-        if (tokens[0] == "ayuda") {
-            if (tokens.size() != 1) {
-                cout << "Error de uso. Uso correcto: ayuda" << endl;
+        if (tokens[0] == "obtener_unidades") {
+            if (tokens.size() != 2) {
+                cout << "Error de uso. Uso correcto: obtener_unidades nombre_jugador" << endl;
                 continue;
             }
-            cout << "Comandos disponibles:" << endl;
-            cout << "inicializar archivo_inicio" << endl;
-            cout << "estado_juego" << endl;
-            cout << "atacar nombre_jugador" << endl;
-            cout << "costo_conquista nombre_jugador territorio" << endl;
-            cout << "salir" << endl;
+            cout << "Comando obtener_unidades: reconocido" << endl;
+            continue;
+        }
+        if (tokens[0] == "fortificar") {
+            if (tokens.size() != 2) {
+                cout << "Error de uso. Uso correcto: fortificar nombre_jugador" << endl;
+                continue;
+            }
+            cout << "Comando fortificar: reconocido" << endl;
+            continue;
+        }
+        if (tokens[0] == "guardar") {
+            if (tokens.size() != 2) {
+                cout << "Error de uso. Uso correcto: guardar nombre_archivo" << endl;
+                continue;
+            }
+            cout << "Comando guardar: reconocido" << endl;
+            continue;
+        }
+        if (tokens[0] == "guardar_comprimido") {
+            if (tokens.size() != 2) {
+                cout << "Error de uso. Uso correcto: guardar_comprimido nombre_archivo" << endl;
+                continue;
+            }
+            cout << "Comando guardar_comprimido: reconocido" << endl;
+            continue;
+        }
+        if (tokens[0] == "conquista_mas_barata") {
+            if (tokens.size() != 2) {
+                cout << "Error de uso. Uso correcto: conquista_mas_barata nombre_jugador" << endl;
+                continue;
+            }
+            cout << "Comando conquista_mas_barata: reconocido" << endl;
+            continue;
+        }
+        if (tokens[0] == "ayuda") {
+            if (tokens.size() == 1) {
+                cout << "Comandos disponibles:" << endl;
+                cout << "inicializar archivo_inicio" << endl;
+                cout << "estado_juego" << endl;
+                cout << "atacar nombre_jugador" << endl;
+                cout << "costo_conquista nombre_jugador territorio" << endl;
+                cout << "obtener_unidades nombre_jugador" << endl;
+                cout << "fortificar nombre_jugador" << endl;
+                cout << "guardar nombre_archivo" << endl;
+                cout << "guardar_comprimido nombre_archivo" << endl;
+                cout << "conquista_mas_barata nombre_jugador" << endl;
+                cout << "salir" << endl;
+                cout << "Para obtener ayuda sobre un comando específico, escriba 'ayuda [comando]'" << endl;
+                continue;
+            }
+            if (tokens.size() > 2) {
+                cout << "Error de uso. Uso correcto: ayuda [comando]" << endl;
+                continue;
+            }
+            if (tokens[1] == "atacar") {
+                cout << "Uso: atacar nombre_jugador" << endl;
+                cout << "Descripción: Permite al jugador indicado realizar su fase de ataque." << endl;
+                continue;
+            }
+            if (tokens[1] == "estado_juego") {
+                cout << "Uso: estado_juego" << endl;
+                cout << "Descripción: Muestra el estado actual del juego." << endl;
+                continue;
+            } 
+            if (tokens[1] == "costo_conquista") {
+                cout << "Uso: costo_conquista nombre_jugador territorio" << endl;
+                cout << "Descripción: Muestra el costo de conquista de un territorio para un jugador específico." << endl;
+                continue;
+            }
+            if (tokens[1] == "inicializar") {
+                cout << "Uso: inicializar archivo_inicio" << endl;
+                cout << "Descripción: Inicializa el juego con el archivo de inicio especificado." << endl;
+                continue;
+            }
+            if (tokens[1] == "salir") {
+                cout << "Uso: salir" << endl;
+                cout << "Descripción: Finaliza el programa." << endl;
+                continue;
+            }
+            if (tokens[1] == "obtener_unidades") {
+                cout << "Uso: obtener_unidades nombre_jugador" << endl;
+                cout << "Descripción: Permite al jugador indicado reclamar y ubicar las unidades correspondientes a su turno." << endl;
+                continue;
+            }
+            if (tokens[1] == "fortificar") {
+                cout << "Uso: fortificar nombre_jugador" << endl;
+                cout << "Descripción: Permite al jugador indicado realizar la fase de fortificación de su turno." << endl;
+                continue;
+            }
+            if (tokens[1] == "guardar") {
+                cout << "Uso: guardar nombre_archivo" << endl;
+                cout << "Descripción: Guarda el estado actual de la partida en un archivo de texto." << endl;
+                continue;
+            }
+            if (tokens[1] == "guardar_comprimido") {
+                cout << "Uso: guardar_comprimido nombre_archivo" << endl;
+                cout << "Descripción: Guarda el estado actual de la partida en un archivo comprimido." << endl;
+                continue;
+            }
+            if (tokens[1] == "conquista_mas_barata") {
+                cout << "Uso: conquista_mas_barata nombre_jugador" << endl;
+                cout << "Descripción: Busca la conquista de menor costo para el jugador indicado." << endl;
+                continue;
+            }
+            cout << "Error: No existe ayuda para el comando '" << tokens[1] << "'"<< endl;
             continue;
         }
         
