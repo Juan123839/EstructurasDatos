@@ -8,4 +8,7 @@ using namespace std;
 
 vector<string> separarTokens(string linea);
 
+bool procesarComando(vector<string> tokens);
+
+void mostrarAyuda(vector<string> tokens);
 #endif

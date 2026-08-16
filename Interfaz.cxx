@@ -109,6 +109,13 @@ bool procesarComando(vector<string> tokens) {
             return true;
         }
         if (tokens[0] == "ayuda") {
+            mostrarAyuda(tokens);
+            return true;
+        }
+        cout << "Error: El comando '" << tokens[0] << "' no es reconocido" << endl;
+        return true;
+}
+void mostrarAyuda(vector<string> tokens) {
             if (tokens.size() == 1) {
                 cout << "Comandos disponibles:" << endl;
                 cout << "inicializar archivo_inicio" << endl;
@@ -122,65 +129,61 @@ bool procesarComando(vector<string> tokens) {
                 cout << "conquista_mas_barata nombre_jugador" << endl;
                 cout << "salir" << endl;
                 cout << "Para obtener ayuda sobre un comando específico, escriba 'ayuda [comando]'" << endl;
-                return true;
+                return;
             }
             if (tokens.size() > 2) {
                 cout << "Error de uso. Uso correcto: ayuda [comando]" << endl;
-                return true;
+                return;
             }
             if (tokens[1] == "atacar") {
                 cout << "Uso: atacar nombre_jugador" << endl;
                 cout << "Descripción: Permite al jugador indicado realizar su fase de ataque." << endl;
-                return true;
+                return;
             }
             if (tokens[1] == "estado_juego") {
                 cout << "Uso: estado_juego" << endl;
                 cout << "Descripción: Muestra el estado actual del juego." << endl;
-                return true;
+                return;
             } 
             if (tokens[1] == "costo_conquista") {
                 cout << "Uso: costo_conquista nombre_jugador territorio" << endl;
                 cout << "Descripción: Muestra el costo de conquista de un territorio para un jugador específico." << endl;
-                return true;
+                return;
             }
             if (tokens[1] == "inicializar") {
                 cout << "Uso: inicializar archivo_inicio" << endl;
                 cout << "Descripción: Inicializa el juego con el archivo de inicio especificado." << endl;
-                return true;
+                return;
             }
             if (tokens[1] == "salir") {
                 cout << "Uso: salir" << endl;
                 cout << "Descripción: Finaliza el programa." << endl;
-                return true;
+                return;
             }
             if (tokens[1] == "obtener_unidades") {
                 cout << "Uso: obtener_unidades nombre_jugador" << endl;
                 cout << "Descripción: Permite al jugador indicado reclamar y ubicar las unidades correspondientes a su turno." << endl;
-                return true;
+                return;
             }
             if (tokens[1] == "fortificar") {
                 cout << "Uso: fortificar nombre_jugador" << endl;
                 cout << "Descripción: Permite al jugador indicado realizar la fase de fortificación de su turno." << endl;
-                return true;
+                return;
             }
             if (tokens[1] == "guardar") {
                 cout << "Uso: guardar nombre_archivo" << endl;
                 cout << "Descripción: Guarda el estado actual de la partida en un archivo de texto." << endl;
-                return true;
+                return;
             }
             if (tokens[1] == "guardar_comprimido") {
                 cout << "Uso: guardar_comprimido nombre_archivo" << endl;
                 cout << "Descripción: Guarda el estado actual de la partida en un archivo comprimido." << endl;
-                return true;
+                return;
             }
             if (tokens[1] == "conquista_mas_barata") {
                 cout << "Uso: conquista_mas_barata nombre_jugador" << endl;
                 cout << "Descripción: Busca la conquista de menor costo para el jugador indicado." << endl;
-                return true;
+                return;
             }
             cout << "Error: No existe ayuda para el comando '" << tokens[1] << "'"<< endl;
-            return true;
-        }
-        cout << "Error: El comando '" << tokens[0] << "' no es reconocido" << endl;
-        return true;
 }
