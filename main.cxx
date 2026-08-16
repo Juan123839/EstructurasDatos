@@ -27,6 +27,16 @@ int main() {
         }
         if (!palabra.empty()) {
             tokens.push_back(palabra);
+        }else{   
+            cout << "No se ingresaron palabras" << endl;
+            continue;
+        }
+        if (tokens[0] == "salir") {
+            if (tokens.size() > 1) {
+                cout << "Error: El comando 'salir' no debe tener argumentos" << endl;
+                continue;
+            }
+            break;
         }
         for (int i = 0; i < tokens.size(); i++) {
             cout << tokens[i] << endl;
