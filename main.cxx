@@ -4,15 +4,8 @@
 
 using namespace std;
 
-
-int main() {
-
-    string linea;
-
-    while (true) {
-        cout << "$ ";
-        getline(cin, linea);
-        vector<string> tokens;
+vector<string> separarTokens(string linea) {
+    vector<string> tokens;
         string palabra = "";
 
         for (int i = 0; i < linea.size(); i++) {
@@ -28,6 +21,18 @@ int main() {
         if (!palabra.empty()) {
             tokens.push_back(palabra);
         }
+    return tokens;
+}
+int main() {
+
+    string linea;
+
+    while (true) {
+        cout << "$ ";
+        getline(cin, linea);
+        vector<string> tokens = separarTokens(linea);
+
+        
         if (tokens.empty()) {
             cout << "No se ingresaron palabras" << endl;
             continue;
