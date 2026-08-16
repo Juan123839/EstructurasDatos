@@ -47,9 +47,6 @@ int main() {
             cout << "Comando estado de juego: reconocido" << endl;
             continue;
         }
-        for (int i = 0; i < tokens.size(); i++) {
-            cout << tokens[i] << endl;
-        }
 
         if (tokens[0] == "atacar") {
             if (tokens.size() != 2) {
@@ -67,11 +64,17 @@ int main() {
             cout << "Comando costo_conquista: reconocido" << endl;
             continue;
         }
-        for (int i = 0; i < tokens.size(); i++) {
-            cout << tokens[i] << endl;
+        if (tokens[0] == "inicializar") {
+            if (tokens.size() != 2) {
+                cout << "Error de uso. Uso correcto: inicializar archivo_inicio" << endl;
+                continue;
+            }
+            cout << "Comando inicializar: reconocido" << endl;
+            continue;
         }
-
+        cout << "Error: El comando '" << tokens[0] << "' no es reconocido" << endl;
     }
+    
 
     return 0;
 }
