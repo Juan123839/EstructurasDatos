@@ -25,8 +25,13 @@ int main() {
                 palabra += linea[i];
             }
         }
+        if (!palabra.empty()) {
+            tokens.push_back(palabra);
+        }
+        for (int i = 0; i < tokens.size(); i++) {
+            cout << tokens[i] << endl;
+        }
 
-        cout << "Escribiste: " << linea << endl;
     }
 
     return 0;
