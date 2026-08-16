@@ -27,7 +27,8 @@ int main() {
         }
         if (!palabra.empty()) {
             tokens.push_back(palabra);
-        }else{   
+        }
+        if (tokens.empty()) {
             cout << "No se ingresaron palabras" << endl;
             continue;
         }
