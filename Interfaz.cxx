@@ -116,18 +116,20 @@ bool procesarComando(vector<string> tokens) {
         return true;
 }
 void mostrarAyuda(vector<string> tokens) {
-            if (tokens.size() == 1) {
-                cout << "Comandos disponibles:" << endl;
-                cout << "inicializar archivo_inicio" << endl;
-                cout << "estado_juego" << endl;
-                cout << "atacar nombre_jugador" << endl;
-                cout << "costo_conquista nombre_jugador territorio" << endl;
-                cout << "obtener_unidades nombre_jugador" << endl;
-                cout << "fortificar nombre_jugador" << endl;
-                cout << "guardar nombre_archivo" << endl;
-                cout << "guardar_comprimido nombre_archivo" << endl;
-                cout << "conquista_mas_barata nombre_jugador" << endl;
-                cout << "salir" << endl;
+if (tokens.size() == 1) {
+                cout << "========================================" << endl;
+                cout << "          COMANDOS DISPONIBLES" << endl;
+                cout << "========================================" << endl;
+                cout << " inicializar archivo_inicio" << endl;
+                cout << " estado_juego" << endl;
+                cout << " atacar nombre_jugador" << endl;
+                cout << " costo_conquista nombre_jugador territorio" << endl;
+                cout << " obtener_unidades nombre_jugador" << endl;
+                cout << " fortificar nombre_jugador" << endl;
+                cout << " guardar nombre_archivo" << endl;
+                cout << " guardar_comprimido nombre_archivo" << endl;
+                cout << " conquista_mas_barata nombre_jugador" << endl;
+                cout << " salir" << endl;
                 cout << "Para obtener ayuda sobre un comando específico, escriba 'ayuda [comando]'" << endl;
                 return;
             }

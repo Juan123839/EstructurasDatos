@@ -8,6 +8,12 @@ using namespace std;
 int main() {
 
     string linea;
+    cout << "=======================================" << endl;
+    cout << "              RISK" << endl;
+    cout << "Bienvenido al sistema de apoyo de Risk" << endl;
+    cout << "=======================================" << endl;
+    cout << "Escriba 'ayuda' para ver los comandos disponibles" << endl;
+    cout << endl;
 
     while (true) {
         cout << "$ ";
