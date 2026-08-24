@@ -224,8 +224,29 @@ void Battle::executeAttack(
     }
     //TODO #06 (Ejecutar y registrar el ataque de un Pokemon)
     /*
+     * Calcule inicialmente el daño causado por attacker a defender utilizando
+     * calculateDamage(). Conserve el resultado para aplicarlo y registrarlo
+     * posteriormente.
+     *
      * Aplique el daño calculado al defensor mediante la operacion publica
      * correspondiente del TAD Pokemon. El atacante no debe ser modificado.
+     *
+     * Agregue a battleHistory un evento que indique:
+     * - El nombre del Pokemon atacante.
+     * - El nombre del Pokemon defensor.
+     * - La cantidad de daño causado.
+     *
+     * Convierta el valor numerico del daño a texto para poder incorporarlo
+     * en el mensaje almacenado en el historial.
+     *
+     * Despues de aplicar el daño, compruebe si el defensor quedo debilitado.
+     * Si esto ocurre, agregue un segundo evento al historial informando el
+     * nombre del Pokemon debilitado.
+     *
+     * Los eventos deben agregarse al final de battleHistory para conservar
+     * el orden cronologico de la batalla. Cada ataque debe producir siempre
+     * un evento principal y solamente debe producir el evento de
+     * debilitamiento cuando la salud del defensor llegue a cero.
      */
 }
 
