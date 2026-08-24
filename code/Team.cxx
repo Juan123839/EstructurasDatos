@@ -62,6 +62,20 @@ std::list<Pokemon>::iterator Team::findPokemon(
 
         ++pos;
     }
+    //TODO #01 (Buscar un Pokemon y retornar su posicion modificable)
+    /*
+     * Recorra pokemonList desde el inicio hasta el final utilizando un
+     * iterador modificable.
+     *
+     * Compare el nombre de cada Pokemon con pokemonName. Si encuentra una
+     * coincidencia, retorne el iterador correspondiente a esa posicion.
+     *
+     * Si termina el recorrido sin encontrar el Pokemon, retorne la posicion
+     * utilizada por el equipo para representar una busqueda fallida.
+     *
+     * La funcion debe retornar un iterator y permitir que otras operaciones
+     * modifiquen el Pokemon encontrado.
+     */
 
     return getNotFoundPosition();
 }
@@ -81,7 +95,21 @@ std::list<Pokemon>::const_iterator Team::findPokemon(
         ++pos;
     }
     //la diferencia aca es que en TODO #1 es std::list<Pokemon>::iterator y en este es std::list<Pokemon>::const_iterator. Este const_iterador solo permite consultar mas no modificar. En cambio el anterior si permitia tanto consultar como modificar.
-
+    //TODO #02 (Buscar un Pokemon sin permitir su modificacion)
+    /*
+     * Recorra pokemonList desde el inicio hasta el final utilizando un
+     * iterador constante.
+     *
+     * Compare el nombre de cada Pokemon con pokemonName. Si encuentra una
+     * coincidencia, retorne el iterador constante correspondiente.
+     *
+     * Si termina el recorrido sin encontrar el Pokemon, retorne la posicion
+     * constante utilizada para representar una busqueda fallida.
+     *
+     * Esta version de la funcion no debe permitir la modificacion de los
+     * Pokemon almacenados. Analice la diferencia entre esta operacion y la
+     * version modificable implementada en el TODO anterior.
+     */
     return getNotFoundPosition();
 }
 
@@ -112,6 +140,26 @@ bool Team::addPokemon(
         ++itposa;
     }
     pokemonList.insert(itpos1, pokemon); //se inserta el pokemon en la posicion indicada
+    //TODO #03 (Agregar un Pokemon en una posicion valida del equipo)
+    /*
+     * Valide inicialmente que el equipo no se encuentre lleno y que no
+     * exista otro Pokemon con el mismo nombre. Si alguna de estas condiciones
+     * no se cumple, la insercion debe rechazarse.
+     *
+     * Compruebe que position sea una posicion valida. Se permite insertar
+     * desde la posicion cero hasta la posicion correspondiente a la cantidad
+     * actual de Pokemon. Esta ultima representa una insercion al final.
+     *
+     * Construya un iterador modificable que comience en pokemonList.begin()
+     * y avancelo hasta alcanzar la posicion solicitada.
+     *
+     * Inserte el Pokemon antes del iterador obtenido. La operacion debe
+     * conservar el orden de los elementos que ya pertenecen al equipo.
+     *
+     * Retorne true solamente cuando la insercion sea realizada. Retorne
+     * false cuando el equipo este lleno, el nombre este repetido o la
+     * posicion se encuentre fuera del rango permitido.
+     */
     return true;
 }
 
@@ -171,8 +219,25 @@ void Team::restoreTeam() {
 bool Team::isDefeated() const {
     
     std::list<Pokemon>::const_iterator pos = getFirstAvailablePokemon();// busca el primer Pokemon que todavia tiene puntos de salud y puede combatir
-
-
+    //TODO #04 (Determinar si el equipo fue derrotado)
+    /*
+     * Determine si el equipo no tiene ningun Pokemon disponible para
+     * continuar una batalla.
+     *
+     * Utilice getFirstAvailablePokemon() para buscar el primer Pokemon que
+     * conserve puntos de salud. No realice un nuevo recorrido directo sobre
+     * pokemonList, pues la operacion de busqueda ya se encuentra disponible.
+     *
+     * Compare el iterador retornado con la posicion constante utilizada para
+     * representar que no se encontro ningun Pokemon.
+     *
+     * Retorne true cuando todos los Pokemon esten debilitados o cuando el
+     * equipo este vacio. Retorne false cuando exista al menos un Pokemon que
+     * todavia pueda combatir.
+     *
+     * Tenga en cuenta que este metodo es constante, por lo que debe utilizar
+     * las versiones de consulta de las operaciones involucradas.
+     */
     return pos == getNotFoundPosition(); // si no encuentra ninguno es xq todos estan debilitados o el equipo esta vacio
 }
 
