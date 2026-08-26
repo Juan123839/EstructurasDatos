@@ -249,10 +249,90 @@ void Battle::executeAttack(
      * debilitamiento cuando la salud del defensor llegue a cero.
      */
 }
-
-// Ejecuta rondas hasta que uno de los equipos no tenga Pokémon disponibles.
+    // Ejecuta rondas hasta que uno de los equipos no tenga Pokémon disponibles.
 bool Battle::runBattle()
 {
+    if (finished) { //pantalla ejecutada
+        return false;
+    }
+
+    
+    if (firstTeam.isDefeated() && secondTeam.isDefeated()) { //estado inicial de los equipos 
+        battleHistory.push_back(
+            "La batalla termino sin ganador"
+        );
+        finished = true;
+        return true;
+    }
+
+    if (firstTeam.isDefeated()) {
+        winnerTeamName = secondTeam.getName();
+        winnerTrainerName = secondTrainerName;
+        battleHistory.push_back(
+            "Ganador: " + winnerTeamName +
+            " entrenador: " + winnerTrainerName
+        );
+        finished = true;
+        return true;
+    }
+
+    if (secondTeam.isDefeated()) {
+        winnerTeamName = firstTeam.getName();
+        winnerTrainerName = firstTrainerName;
+        battleHistory.push_back(
+            "Ganador: " + winnerTeamName +
+            " entrenador: " + winnerTrainerName
+        );
+        finished = true;
+        return true;
+    }
+
+
+    while (!firstTeam.isDefeated() &&
+           !secondTeam.isDefeated()) {
+        std::list<Pokemon>::iterator firstPokemon =
+            firstTeam.getFirstAvailablePokemon();
+        std::list<Pokemon>::iterator secondPokemon =
+            secondTeam.getFirstAvailablePokemon();
+        if (firstPokemon->getSpeed() >= secondPokemon->getSpeed()) {
+            executeAttack(
+                *firstPokemon,
+                *secondPokemon
+            );
+            if (!secondPokemon->isFainted()) {
+                executeAttack(
+                    *secondPokemon,
+                    *firstPokemon
+                );
+            }
+        } else {
+            executeAttack(
+                *secondPokemon,
+                *firstPokemon
+            );
+            if (!firstPokemon->isFainted()) {
+
+                executeAttack(
+                    *firstPokemon,
+                    *secondPokemon
+                );
+            }
+        }
+    }
+    if (firstTeam.isDefeated()) {
+        winnerTeamName = secondTeam.getName();
+        winnerTrainerName = secondTrainerName;
+    } else {
+        winnerTeamName = firstTeam.getName();
+        winnerTrainerName = firstTrainerName;
+    }
+    battleHistory.push_back(
+        "Equipo ganador: " + winnerTeamName
+    );
+    battleHistory.push_back(
+        "Entrenador ganador: " + winnerTrainerName
+    );
+    finished = true;
     //TODO #07 (Ejecutar completamente una batalla entre dos equipos)
     /*
      * Ejecute la batalla completa utilizando las operaciones disponibles en
