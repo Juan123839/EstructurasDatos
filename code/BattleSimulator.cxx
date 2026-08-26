@@ -33,10 +33,14 @@ bool BattleSimulator::isEmpty() const {
 
 // Busca un entrenador y retorna su posición dentro del vector.
 int BattleSimulator::findTrainer(const std::string& trainerName) const {
-    std::vector<Trainer>::const_iterator trainerPosition = trainerList.begin();
+
+    std::vector<Trainer>::const_iterator trainerPosition =
+        trainerList.begin();
+
     int position = 0;
 
     while (trainerPosition != trainerList.end()) {
+
         if (trainerPosition->getName() == trainerName) {
             return position;
         }
@@ -49,57 +53,75 @@ int BattleSimulator::findTrainer(const std::string& trainerName) const {
 }
 
 // Comprueba si ya existe un entrenador con el nombre recibido.
-bool BattleSimulator::containsTrainer(const std::string& trainerName) const {
+bool BattleSimulator::containsTrainer(
+    const std::string& trainerName) const {
+
     return findTrainer(trainerName) != -1;
 }
 
 // Agrega un entrenador si no existe otro con el mismo nombre.
-bool BattleSimulator::addTrainer(const Trainer& trainer) {
+bool BattleSimulator::addTrainer(
+    const Trainer& trainer) {
+
     if (containsTrainer(trainer.getName())) {
         return false;
     }
 
     trainerList.push_back(trainer);
+
     return true;
 }
 
 // Elimina un entrenador cuando su nombre se encuentra registrado.
-bool BattleSimulator::removeTrainer(const std::string& trainerName) {
+bool BattleSimulator::removeTrainer(
+    const std::string& trainerName) {
+
     int position = findTrainer(trainerName);
 
     if (position == -1) {
         return false;
     }
 
-    std::vector<Trainer>::iterator trainerPosition = trainerList.begin();
+    std::vector<Trainer>::iterator trainerPosition =
+        trainerList.begin();
+
     int currentPosition = 0;
 
     while (currentPosition < position) {
+
         ++trainerPosition;
         ++currentPosition;
     }
 
     trainerList.erase(trainerPosition);
+
     return true;
 }
 
 // Retorna una referencia que permite modificar el entrenador solicitado.
-Trainer& BattleSimulator::getTrainer(int position) {
+Trainer& BattleSimulator::getTrainer(
+    int position) {
+
     return trainerList[position];
 }
 
 // Retorna una referencia constante para consultar el entrenador solicitado.
-const Trainer& BattleSimulator::getTrainer(int position) const {
+const Trainer& BattleSimulator::getTrainer(
+    int position) const {
+
     return trainerList[position];
 }
 
 // Retorna una batalla del historial únicamente para consulta.
-const Battle& BattleSimulator::getBattle(int position) const {
+const Battle& BattleSimulator::getBattle(
+    int position) const {
+
     return battleHistory[position];
 }
 
 // Retorna los resultados generados por la comparación más reciente.
 const std::vector<TeamResult>& BattleSimulator::getComparisonResults() const {
+
     return comparisonResults;
 }
 
@@ -108,14 +130,17 @@ int BattleSimulator::findComparisonResult(
     const std::string& trainerName,
     const std::string& teamName
 ) const {
+
     std::vector<TeamResult>::const_iterator resultPosition =
         comparisonResults.begin();
 
     int position = 0;
 
     while (resultPosition != comparisonResults.end()) {
+
         if (resultPosition->trainerName == trainerName &&
             resultPosition->teamName == teamName) {
+
             return position;
         }
 
@@ -125,44 +150,56 @@ int BattleSimulator::findComparisonResult(
 
     return -1;
 }
-
 // Crea un resultado vacío para cada equipo de los dos entrenadores.
 void BattleSimulator::initializeComparisonResults(
     const Trainer& firstTrainer,
     const Trainer& secondTrainer
 ) {
+
     comparisonResults.clear();
 
     int firstTeamPosition = 0;
     int firstTeamCount = firstTrainer.getTeamCount();
 
     while (firstTeamPosition < firstTeamCount) {
+
         TeamResult result;
+
         result.trainerName = firstTrainer.getName();
-        result.teamName = firstTrainer.getTeam(firstTeamPosition).getName();
+        result.teamName =
+            firstTrainer.getTeam(firstTeamPosition).getName();
+
         result.battles = 0;
         result.victories = 0;
         result.winPercentage = 0.0;
 
         comparisonResults.push_back(result);
+
         ++firstTeamPosition;
     }
+
 
     int secondTeamPosition = 0;
     int secondTeamCount = secondTrainer.getTeamCount();
 
     while (secondTeamPosition < secondTeamCount) {
+
         TeamResult result;
+
         result.trainerName = secondTrainer.getName();
-        result.teamName = secondTrainer.getTeam(secondTeamPosition).getName();
+        result.teamName =
+            secondTrainer.getTeam(secondTeamPosition).getName();
+
         result.battles = 0;
         result.victories = 0;
         result.winPercentage = 0.0;
 
         comparisonResults.push_back(result);
+
         ++secondTeamPosition;
     }
 }
+
 
 // Actualiza las batallas y victorias acumuladas por un equipo.
 void BattleSimulator::registerTeamResult(
@@ -170,35 +207,50 @@ void BattleSimulator::registerTeamResult(
     const std::string& teamName,
     bool won
 ) {
-    int resultPosition = findComparisonResult(trainerName, teamName);
+
+    int resultPosition =
+        findComparisonResult(trainerName, teamName);
+
 
     if (resultPosition == -1) {
         return;
     }
 
+
     comparisonResults[resultPosition].battles++;
 
+
     if (won) {
+
         comparisonResults[resultPosition].victories++;
     }
 }
 
+
 // Calcula el porcentaje de victorias de cada resultado almacenado.
 void BattleSimulator::calculateWinPercentages() {
+
     std::vector<TeamResult>::iterator resultPosition =
         comparisonResults.begin();
 
+
     while (resultPosition != comparisonResults.end()) {
+
         if (resultPosition->battles == 0) {
+
             resultPosition->winPercentage = 0.0;
+
         } else {
+
             resultPosition->winPercentage =
-                resultPosition->victories * 100.0 / resultPosition->battles;
+                resultPosition->victories * 100.0 /
+                resultPosition->battles;
         }
 
         ++resultPosition;
     }
 }
+
 
 // Ejecuta una batalla específica seleccionando entrenadores y equipos por nombre.
 bool BattleSimulator::executeBattle(
@@ -207,6 +259,7 @@ bool BattleSimulator::executeBattle(
     const std::string& secondTrainerName,
     const std::string& secondTeamName
 ) {
+
     //TODO #08 (Buscar los participantes y ejecutar una batalla)
     /*
      * Ejecute una batalla entre los equipos indicados por los parametros.
@@ -245,6 +298,71 @@ bool BattleSimulator::executeBattle(
      * historial cuando algun entrenador o equipo no pueda encontrarse.
      */
 
+
+    // Buscar los entrenadores participantes.
+    int firstTrainerPosition =
+        findTrainer(firstTrainerName);
+
+    int secondTrainerPosition =
+        findTrainer(secondTrainerName);
+
+
+    if (firstTrainerPosition == -1 ||
+        secondTrainerPosition == -1) {
+
+        return false;
+    }
+
+
+    // Obtener los entrenadores encontrados.
+    const Trainer& firstTrainer =
+        trainerList[firstTrainerPosition];
+
+    const Trainer& secondTrainer =
+        trainerList[secondTrainerPosition];
+
+
+    // Buscar los equipos dentro de cada entrenador.
+    int firstTeamPosition =
+        firstTrainer.findTeam(firstTeamName);
+
+    int secondTeamPosition =
+        secondTrainer.findTeam(secondTeamName);
+
+
+    if (firstTeamPosition == -1 ||
+        secondTeamPosition == -1) {
+
+        return false;
+    }
+
+
+    // Obtener los equipos encontrados.
+    const Team& firstTeam =
+        firstTrainer.getTeam(firstTeamPosition);
+
+    const Team& secondTeam =
+        secondTrainer.getTeam(secondTeamPosition);
+
+
+
+    // Crear la batalla utilizando copias de los equipos.
+    Battle battle(
+        firstTrainerName,
+        firstTeam,
+        secondTrainerName,
+        secondTeam
+    );
+
+
+    // Ejecutar completamente la batalla.
+    battle.runBattle();
+
+
+    // Guardar la batalla en el historial.
+    battleHistory.push_back(battle);
+
+
     return true;
 }
 // Enfrenta cada equipo del primer entrenador contra todos los del segundo.
@@ -252,6 +370,7 @@ bool BattleSimulator::compareTrainers(
     const std::string& firstTrainerName,
     const std::string& secondTrainerName
 ) {
+
     //TODO #09 (Comparar todos los equipos de dos entrenadores)
     /*
      * Compare los entrenadores ejecutando una batalla entre cada equipo del
@@ -304,75 +423,245 @@ bool BattleSimulator::compareTrainers(
      * solamente deben reemplazarse despues de superar estas validaciones.
      */
 
+
+    // Un entrenador no puede compararse consigo mismo.
+    if (firstTrainerName == secondTrainerName) {
+
+        return false;
+    }
+
+
+    // Buscar los entrenadores dentro del simulador.
+    int firstTrainerPosition =
+        findTrainer(firstTrainerName);
+
+    int secondTrainerPosition =
+        findTrainer(secondTrainerName);
+
+
+    if (firstTrainerPosition == -1 ||
+        secondTrainerPosition == -1) {
+
+        return false;
+    }
+
+
+    // Obtener referencias constantes de los entrenadores.
+    const Trainer& firstTrainer =
+        trainerList[firstTrainerPosition];
+
+    const Trainer& secondTrainer =
+        trainerList[secondTrainerPosition];
+
+
+    // Verificar que ambos entrenadores tengan equipos.
+    if (firstTrainer.isEmpty() ||
+        secondTrainer.isEmpty()) {
+
+        return false;
+    }
+
+
+    // Preparar resultados de comparación.
+    initializeComparisonResults(
+        firstTrainer,
+        secondTrainer
+    );
+
+
+    int firstTeamPosition = 0;
+
+
+    while (firstTeamPosition < firstTrainer.getTeamCount()) {
+
+
+        int secondTeamPosition = 0;
+
+
+        while (secondTeamPosition < secondTrainer.getTeamCount()) {
+
+
+            const Team& firstTeam =
+                firstTrainer.getTeam(firstTeamPosition);
+
+
+            const Team& secondTeam =
+                secondTrainer.getTeam(secondTeamPosition);
+
+
+
+            // Crear la batalla entre los dos equipos.
+            Battle battle(
+                firstTrainer.getName(),
+                firstTeam,
+                secondTrainer.getName(),
+                secondTeam
+            );
+
+
+            // Ejecutar la batalla.
+            battle.runBattle();
+
+
+
+            bool firstTeamWon = false;
+            bool secondTeamWon = false;
+
+
+            // Revisar el resultado de la batalla.
+            if (battle.getFirstTeam().isDefeated() &&
+                !battle.getSecondTeam().isDefeated()) {
+
+                secondTeamWon = true;
+
+            } else if (battle.getSecondTeam().isDefeated() &&
+                       !battle.getFirstTeam().isDefeated()) {
+
+                firstTeamWon = true;
+            }
+
+
+
+            // Guardar resultados de ambos equipos.
+            registerTeamResult(
+                firstTrainer.getName(),
+                firstTeam.getName(),
+                firstTeamWon
+            );
+
+
+            registerTeamResult(
+                secondTrainer.getName(),
+                secondTeam.getName(),
+                secondTeamWon
+            );
+
+
+            // Guardar la batalla realizada.
+            battleHistory.push_back(battle);
+
+
+            ++secondTeamPosition;
+        }
+
+
+        ++firstTeamPosition;
+    }
+
+
+    // Calcular porcentajes finales.
+    calculateWinPercentages();
+
+
     return true;
 }
+
+
 // Retorna todos los equipos que comparten el mayor porcentaje del entrenador.
 std::vector<std::string> BattleSimulator::getBestTeams(
     const std::string& trainerName
 ) const {
+
     std::vector<std::string> bestTeams;
+
     double bestPercentage = -1.0;
+
 
     std::vector<TeamResult>::const_iterator resultPosition =
         comparisonResults.begin();
 
+
     while (resultPosition != comparisonResults.end()) {
+
+
         if (resultPosition->trainerName == trainerName &&
             resultPosition->winPercentage > bestPercentage) {
-            bestPercentage = resultPosition->winPercentage;
+
+            bestPercentage =
+                resultPosition->winPercentage;
         }
+
 
         ++resultPosition;
     }
 
+
+
     if (bestPercentage < 0.0) {
+
         return bestTeams;
     }
 
+
+
     resultPosition = comparisonResults.begin();
 
+
     while (resultPosition != comparisonResults.end()) {
+
+
         if (resultPosition->trainerName == trainerName &&
             resultPosition->winPercentage == bestPercentage) {
-            bestTeams.push_back(resultPosition->teamName);
+
+            bestTeams.push_back(
+                resultPosition->teamName
+            );
         }
+
 
         ++resultPosition;
     }
 
+
     return bestTeams;
 }
-
 // Imprime todos los entrenadores registrados en el simulador.
 void BattleSimulator::printTrainers() const {
+
     std::cout << "==================================================\n";
-    std::cout << "ENTRENADORES REGISTRADOS: " << getTrainerCount() << '\n';
+    std::cout << "ENTRENADORES REGISTRADOS: "
+              << getTrainerCount() << '\n';
     std::cout << "==================================================\n";
 
+
     if (isEmpty()) {
+
         std::cout << "No hay entrenadores registrados.\n";
         return;
     }
 
-    std::vector<Trainer>::const_iterator trainerPosition = trainerList.begin();
+
+    std::vector<Trainer>::const_iterator trainerPosition =
+        trainerList.begin();
+
 
     while (trainerPosition != trainerList.end()) {
+
         trainerPosition->print();
+
         std::cout << '\n';
+
         ++trainerPosition;
     }
 }
 
+
 // Imprime la tabla de resultados de la comparación más reciente.
 void BattleSimulator::printComparisonResults() const {
+
     std::cout << "==============================================================\n";
     std::cout << "RESULTADOS DE LA COMPARACION\n";
     std::cout << "==============================================================\n";
 
+
     if (comparisonResults.empty()) {
-        std::cout << "No hay resultados de comparación disponibles.\n";
+
+        std::cout
+            << "No hay resultados de comparación disponibles.\n";
+
         return;
     }
+
 
     std::cout << std::left
               << std::setw(15) << "Entrenador"
@@ -381,41 +670,78 @@ void BattleSimulator::printComparisonResults() const {
               << std::setw(11) << "Victorias"
               << "Porcentaje\n";
 
+
     std::cout << "--------------------------------------------------------------\n";
+
 
     std::vector<TeamResult>::const_iterator resultPosition =
         comparisonResults.begin();
 
+
     while (resultPosition != comparisonResults.end()) {
+
+
         std::cout << std::left
-                  << std::setw(15) << resultPosition->trainerName
-                  << std::setw(20) << resultPosition->teamName
-                  << std::setw(10) << resultPosition->battles
-                  << std::setw(11) << resultPosition->victories
-                  << std::fixed << std::setprecision(2)
-                  << resultPosition->winPercentage << " %\n";
+                  << std::setw(15)
+                  << resultPosition->trainerName
+
+                  << std::setw(20)
+                  << resultPosition->teamName
+
+                  << std::setw(10)
+                  << resultPosition->battles
+
+                  << std::setw(11)
+                  << resultPosition->victories
+
+                  << std::fixed
+                  << std::setprecision(2)
+                  << resultPosition->winPercentage
+                  << " %\n";
+
 
         ++resultPosition;
     }
 }
 
+
 // Imprime todas las batallas almacenadas en orden cronológico.
 void BattleSimulator::printBattleHistory() const {
+
+
     std::cout << "==================================================\n";
-    std::cout << "HISTORIAL DE BATALLAS: " << getBattleCount() << '\n';
+    std::cout << "HISTORIAL DE BATALLAS: "
+              << getBattleCount()
+              << '\n';
+
     std::cout << "==================================================\n";
 
+
     if (battleHistory.empty()) {
+
         std::cout << "No hay batallas registradas.\n";
+
         return;
     }
 
-    std::deque<Battle>::const_iterator battlePosition = battleHistory.begin();
+
+    std::deque<Battle>::const_iterator battlePosition =
+        battleHistory.begin();
+
+
     int position = 0;
 
+
     while (battlePosition != battleHistory.end()) {
-        std::cout << "\nBatalla " << position << '\n';
+
+
+        std::cout << "\nBatalla "
+                  << position
+                  << '\n';
+
+
         battlePosition->printBattleHistory();
+
 
         ++battlePosition;
         ++position;
