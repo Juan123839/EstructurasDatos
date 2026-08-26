@@ -293,21 +293,25 @@ bool executeBattleInstruction(
     }
 
     if (!simulator.executeBattle(
-            firstTrainerName,
-            firstTeamName,
-            secondTrainerName,
-            secondTeamName))
-    {
-        std::cerr
-            << "Error: no fue posible ejecutar la batalla entre "
-            << firstTeamName << " y " << secondTeamName << ".\n";
-        return false;
-    }
+        firstTrainerName,
+        firstTeamName,
+        secondTrainerName,
+        secondTeamName))
+{
+    std::cerr
+        << "Error: no fue posible ejecutar la batalla entre "
+        << firstTeamName << " y " << secondTeamName << ".\n";
+    return false;
+}
 
+if (simulator.getBattleCount() > 0)
+{
     unsigned int lastBattlePosition = simulator.getBattleCount() - 1;
 
     simulator.getBattle(lastBattlePosition).printBattleHistory();
-    return true;
+}
+
+return true;
 }
 
 /**
