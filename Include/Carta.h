@@ -8,15 +8,13 @@ using namespace std;
 class Carta {
 
 private:
-    string tipo;
-    string territorioAsociado;
+    string territorio;
     string simbolo;
-
 public:
-    Carta(string tipo, string territorioAsociado, string simbolo);
-    string consultarTipo();
-    string consultarTerritorioAsociado();
+    Carta(string territorio, string simbolo);
+    string consultarTerritorio();
     string consultarSimbolo();
+    bool esComodin();
     bool esIgual(Carta otraCarta);
 };
 

@@ -1,30 +1,23 @@
-#include "../Include/Carta.h"
+#include "../include/Carta.h"
 
-
-Carta::Carta(string tipo, string territorioAsociado, string simbolo)
+Carta::Carta(string territorio, string simbolo)
 {
-    this->tipo = tipo;
-    this->territorioAsociado = territorioAsociado;
-    this->simbolo = simbolo;
+    this->territorio = territorio; //Se le atribute el valor del territorio a la carta
+    this->simbolo = simbolo; // Lo mismo pero con simbolo
 }
-
-string Carta::consultarTipo()
+string Carta::consultarTerritorio()
 {
-    return tipo;
+    return territorio; //Devuelve solo el territorio
 }
-
-string Carta::consultarTerritorioAsociado()
-{
-    return territorioAsociado;
-}
-
 string Carta::consultarSimbolo()
 {
-    return simbolo;
+    return simbolo;//Devuelve solo el simbolo
 }
-
+bool Carta::esComodin()
+{
+    return territorio == "";//En caso de que este vacio se toma como comodin
+}
 bool Carta::esIgual(Carta otraCarta)
 {
-    return tipo == otraCarta.consultarTipo() && territorioAsociado == otraCarta.consultarTerritorioAsociado() &&
-        simbolo == otraCarta.consultarSimbolo();
-}
+    return territorio == otraCarta.consultarTerritorio() && simbolo == otraCarta.consultarSimbolo();
+} //Comparacion entre dos cartas, en caso de que sea verdad devuelve true y si no pues false
