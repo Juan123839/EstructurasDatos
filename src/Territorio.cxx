@@ -36,3 +36,7 @@ bool Territorio::esVecino(string codigoVecino){
     }
     return false;
 }
+vector<string> Territorio::consultarVecinos(){
+    return vecinos;
+}
+
