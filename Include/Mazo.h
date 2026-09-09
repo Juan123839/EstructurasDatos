@@ -1,23 +1,21 @@
 #ifndef MAZO_H
 #define MAZO_H
-
-#include <vector>
+#include <list>
 #include "Carta.h"
-
-using namespace std;
-
-class Mazo{
-
+#include "Tablero.h"
+class Mazo {
 private:
-    vector<Carta> cartasDisponibles;
-    vector<Carta> cartasDescartadas;
+  std::list<Carta> disponibles;
+  std::list<Carta> descartadas;
+  int grupos;
 public:
-    Mazo();
-    bool estaVacio();
-    int contarCartasDisponibles();
-    Carta repartirCarta();
-    void descartarCartas(vector<Carta> grupoCartas);
-    int contarGruposIntercambiados();
-    int consultarUnidadesPorIntercambio();
+  Mazo();
+  void crearMazo(Tablero& tablero);
+  bool estaVacio() const;
+  int contarCartasDisponibles() const;
+  Carta repartirCarta();
+  void descartarCartas(const std::list<Carta>& grupo);
+  int consultarUnidadesPorIntercambio() const;
 };
+#include "../src/Mazo.cxx"
 #endif

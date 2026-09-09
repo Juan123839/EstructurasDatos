@@ -1,29 +1,29 @@
 #ifndef JUGADOR_H
 #define JUGADOR_H
 #include <string>
-#include <vector>
+#include <list>
 #include "Carta.h"
-
-using namespace std;
-
-class Jugador{
-    private:
-    string nombre;
-    string color;
-    vector<Carta> cartas; // nuestra baraja de cartas
-    string fase; // fase en la que esta el jugador
-    bool conquistoEnTurno; //
-    public:
-    Jugador(string nombre, string color);
-    string consultarNombre();
-    string consultarColor();
-    string consultarFase();
-    void avanzarFase();
-    bool consultarConquistoEnTurno();
-    void marcarConquista();
-    void agregarCarta(Carta carta);
-    void quitarCartas(vector<Carta> grupoCartas);
-    vector<Carta> consultarCartas();
-    int contarCartas();
+class Jugador {
+private:
+  std::string nombre;
+  std::string color;
+  std::list<Carta> cartas;
+  std::string estado;
+  bool conquisto;
+public:
+  Jugador();
+  Jugador(std::string nombre, std::string color);
+  std::string consultarNombre() const;
+  std::string consultarColor() const;
+  std::string consultarEstado() const;
+  void cambiarEstado(std::string nuevoEstado);
+  bool consultarConquistaEnTurno() const;
+  void registrarConquistaEnTurno(bool valor);
+  bool tieneCarta(const Carta& carta) const;
+  void agregarCarta(const Carta& carta);
+  void quitarCartas(const std::list<Carta>& grupo);
+  std::list<Carta> consultarCartas() const;
+  int contarCartas() const;
 };
+#include "../src/Jugador.cxx"
 #endif

@@ -1,21 +1,21 @@
 #ifndef CARTA_H
 #define CARTA_H
-
 #include <string>
-
-using namespace std;
-
 class Carta {
-
 private:
-    string territorio;
-    string simbolo;
+  int id;
+  std::string tipo;
+  std::string codigoTerritorio;
+  std::string simbolo;
 public:
-    Carta(string territorio, string simbolo);
-    string consultarTerritorio();
-    string consultarSimbolo();
-    bool esComodin();
-    bool esIgual(Carta otraCarta);
+  Carta();
+  Carta(int id, std::string tipo, std::string codigoTerritorio, std::string simbolo);
+  int consultarIdentificador() const;
+  std::string consultarTipo() const;
+  bool tieneTerritorio() const;
+  std::string consultarCodigoTerritorio() const;
+  std::string consultarSimbolo() const;
+  bool esIgual(const Carta& otra) const;
 };
-
+#include "../src/Carta.cxx"
 #endif

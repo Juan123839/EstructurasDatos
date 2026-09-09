@@ -1,28 +1,31 @@
 #ifndef TERRITORIO_H
 #define TERRITORIO_H
 #include <string>
-#include <vector>
-
-using namespace std;
-
-class Territorio{
-    private:
-    string codigo;
-    string nombre;
-    string colorPropietario;
-    int unidades;
-    vector<string> vecinos;
-
-    public:
-    Territorio(string codigo, string nombre,vector<string> vecinos);
-    string consultarCodigo();
-    string consultarNombre();
-    string consultarColorPropietario();
-    int consultarUnidades();
-    void asignarPropietario(string color);
-    void agregarUnidades(int cantidad);
-    void quitarUnidades(int cantidad);
-    bool esVecino(string codigoVecino);
-    vector<string> consultarVecinos();
+#include <list>
+#include "Tropa.h"
+class Territorio {
+private:
+  std::string codigo;
+  std::string nombre;
+  std::string colorPropietario;
+  std::list<Tropa> tropas;
+  std::list<std::string> vecinos;
+public:
+  Territorio();
+  Territorio(std::string codigo, std::string nombre);
+  std::string consultarCodigo() const;
+  std::string consultarNombre() const;
+  bool tienePropietario() const;
+  std::string consultarColorPropietario() const;
+  void asignarPropietario(std::string color);
+  std::list<Tropa> consultarTropas() const;
+  int consultarUnidades() const;
+  void agregarUnidades(int n);
+  void quitarUnidades(int n);
+  void reagrupar();
+  void agregarVecino(std::string codigoVecino);
+  bool esVecino(std::string codigoVecino) const;
+  std::list<std::string> consultarVecinos() const;
 };
+#include "../src/Territorio.cxx"
 #endif

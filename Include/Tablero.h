@@ -1,25 +1,22 @@
 #ifndef TABLERO_H
 #define TABLERO_H
-
 #include <string>
-#include <vector>
+#include <list>
 #include "Continente.h"
-
-using namespace std;
-
-class Tablero{
-
+class Tablero {
 private:
-    vector<Continente> continentes;
+  std::list<Continente> continentes;
 public:
-    Tablero();
-    vector<Continente> consultarContinentes();
-    bool existeTerritorio(string codigo);
-    Territorio& buscarTerritorio(string codigo);
-    void asignarOcupacionInicial(string codigo, string color, int unidades);
-    int contarTerritoriosDeJugador(string color);
-    int calcularBonificacionPorContinentes(string color);
-    bool controlaTodoElTablero(string color);
-    void mostrarTerritorios();
+  Tablero();
+  void crearTablero();
+  std::list<Continente>& consultarContinentes();
+  bool existeTerritorio(std::string codigo) const;
+  Territorio& buscarTerritorio(std::string codigo);
+  std::list<Territorio*> consultarTerritorios();
+  int contarTerritoriosDe(std::string color) const;
+  int calcularBonificacionPorContinentes(std::string color) const;
+  bool controlaTodoElTablero(std::string color) const;
+  void conectarTerritorios(std::string codigo1, std::string codigo2);
 };
+#include "../src/Tablero.cxx"
 #endif

@@ -3,8 +3,9 @@
 #include <string>
 #include <list>
 #include "Jugador.h"
-#include "tablero.h"
-#include "mazo.h"
+#include "Territorio.h"
+#include "Tablero.h"
+#include "Mazo.h"
 class Juego {
 private:
   std::list<Jugador> jugadores;
