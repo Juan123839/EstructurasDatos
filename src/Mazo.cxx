@@ -2,7 +2,6 @@
 #include "../Include/Continente.h"
 #include "../Include/Tablero.h"
 using namespace std;
-#include <vector>
 Mazo::Mazo(){
     grupos = 0;
 }
@@ -10,13 +9,15 @@ void Mazo::crearMazo(Tablero& tablero){
     disponibles.clear();
     descartadas.clear();
     grupos = 0;
+    int id = 1;
     // crea las cartas de los territorios
-    list<Continente> continentes = tablero.consultarContinentes();
-    for(Continente continente : continentes){
-        list<Territorio> territorios = continente.consultarTerritorios();
-        for(Territorio territorio : territorios){
-            Carta carta(0, "territorio", territorio.consultarCodigo(), "infanteria");
+    list<Continente>& continentes = tablero.consultarContinentes();
+    for(Continente& continente : continentes){
+        list<Territorio>& territorios = continente.consultarTerritorios();
+        for(Territorio& territorio : territorios){
+            Carta carta(id, "territorio", territorio.consultarCodigo(), "infanteria");
             disponibles.push_back(carta);
+            id++;
         }
     }
     // agrega las cartas comodin
@@ -31,13 +32,18 @@ bool Mazo::estaVacio() const{
 int Mazo::contarCartasDisponibles() const{
     return disponibles.size();
 }
-Carta Mazo::repartirCarta(){
+Carta Mazo::repartirCarta()
+{
+    if(disponibles.empty())
+    {
+        return Carta();
+    }
     Carta carta = disponibles.front();
     disponibles.pop_front();
     return carta;
 }
 void Mazo::descartarCartas(const list<Carta>& grupo){
-    for(Carta carta : grupo){
+    for(const Carta& carta : grupo){
         descartadas.push_back(carta);
     }
     grupos++;
