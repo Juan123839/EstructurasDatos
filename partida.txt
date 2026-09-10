@@ -2,7 +2,6 @@
 Isa 1 rojo
 Juan 2 azul
 CastroUWU 3 verde
-
 AN1 rojo 3
 AN2 azul 3
 AN3 verde 3
@@ -12,12 +11,10 @@ AN6 verde 3
 AN7 rojo 3
 AN8 azul 3
 AN9 verde 3
-
 AS1 rojo 3
 AS2 azul 3
 AS3 verde 3
 AS4 rojo 3
-
 EU1 rojo 3
 EU2 azul 3
 EU3 verde 3
@@ -25,14 +22,12 @@ EU4 rojo 3
 EU5 azul 3
 EU6 verde 3
 EU7 rojo 3
-
 AF1 azul 3
 AF2 verde 3
 AF3 rojo 3
 AF4 azul 3
 AF5 verde 3
 AF6 rojo 3
-
 A1 rojo 3
 A2 azul 3
 A3 verde 3
@@ -45,7 +40,6 @@ A9 verde 3
 A10 rojo 3
 A11 azul 3
 A12 verde 3
-
 AU1 rojo 3
 AU2 azul 3
 AU3 verde 3

@@ -1,6 +1,11 @@
 #include "Interfaz.h"
+#include "Juego.h"
 #include <string>
 #include <iostream>
+#include <list>
+#include "Territorio.h"
+#include "Jugador.h"
+#include <fstream>
 using namespace std;
 
 vector<string> separarTokens(string linea) {
@@ -22,7 +27,7 @@ vector<string> separarTokens(string linea) {
         }
     return tokens;
 }
-bool procesarComando(vector<string> tokens) {
+bool procesarComando(vector<string> tokens, Juego& juego) {
 
         if (tokens.empty()) {
             cout << "No se ingresaron palabras" << endl;
@@ -35,61 +40,384 @@ bool procesarComando(vector<string> tokens) {
             }
             return false;
         }
-        if (tokens[0] == "estado_juego") {
-            if (tokens.size() > 1) {
+        if(tokens[0] == "estado_juego")
+        {
+            if(tokens.size() > 1)
+            {
                 cout << "Error: El comando 'estado_juego' no debe tener argumentos" << endl;
                 return true;
             }
-            cout << "Comando estado de juego: reconocido" << endl;
+
+            if(juego.consultarTablero().consultarTerritorios().empty())
+            {
+                cout << "Juego no inicializado: Esta partida no ha sido inicializada correctamente" << endl;
+                return true;
+            }
+
+            if(juego.estaFinalizado())
+            {
+                cout << "Juego terminado: Esta partida ya tuvo un ganador" << endl;
+                return true;
+            }
+
+            cout << "Cantidad de jugadores: "
+                << juego.consultarJugadores().size()
+                << endl;
+
+            cout << endl;
+
+            cout << "Jugadores:" << endl;
+
+            for(Jugador jugador : juego.consultarJugadores())
+            {
+                cout << jugador.consultarNombre()
+                    << " - "
+                    << jugador.consultarColor()
+                    << endl;
+            }
+
+            cout << endl;
+
+            if(!juego.consultarJugadores().empty())
+            {
+                cout << "Turno actual: "
+                    << juego.consultarJugadorActual().consultarNombre()
+                    << endl;
+            }
+
+            cout << "Fase actual: "
+                << juego.consultarFase()
+                << endl;
+
+            cout << endl;
+
+            cout << "Territorios:" << endl;
+
+            list<Territorio*> territorios = juego.consultarTablero().consultarTerritorios();
+
+            for(Territorio* territorio : territorios)
+            {
+                cout << territorio->consultarCodigo()
+                    << " - "
+                    << territorio->consultarNombre()
+                    << endl;
+
+                cout << "Propietario: "
+                    << territorio->consultarColorPropietario()
+                    << endl;
+
+                cout << "Unidades: "
+                    << territorio->consultarUnidades()
+                    << endl;
+
+                cout << endl;
+            }
+
             return true;
         }
 
-        if (tokens[0] == "atacar") {
-            if (tokens.size() != 2) {
+        if(tokens[0] == "atacar")
+        {
+            if(tokens.size() != 2)
+            {
                 cout << "Error de uso. Uso correcto: atacar nombre_jugador" << endl;
                 return true;
             }
-            cout << "Comando atacar: reconocido" << endl;
-            return true;
-        }
-        if (tokens[0] == "costo_conquista") {
-            if (tokens.size() != 3) {
-                cout << "Error de uso. Uso correcto: costo_conquista nombre_jugador territorio" << endl;
+
+            string nombreJugador = tokens[1];
+
+            string colorJugador = "";
+            bool encontrado = false;
+
+
+            for(Jugador jugador : juego.consultarJugadores())
+            {
+                if(jugador.consultarNombre() == nombreJugador)
+                {
+                    colorJugador = jugador.consultarColor();
+                    encontrado = true;
+                }
+            }
+
+
+            if(!encontrado)
+            {
+                cout << "Jugador no valido" << endl;
                 return true;
             }
-            cout << "Comando costo_conquista: reconocido" << endl;
-            return true;
-        }
-        if (tokens[0] == "inicializar") {
-            if (tokens.size() != 2) {
-                cout << "Error de uso. Uso correcto: inicializar archivo_inicio.txt" << endl;
+
+
+            if(juego.consultarJugadorActual().consultarNombre() != nombreJugador)
+            {
+                cout << "Jugador fuera de turno" << endl;
                 return true;
             }
-            cout << "Comando inicializar: reconocido" << endl;
+
+
+            string origen;
+            string destino;
+
+
+            cout << "Territorio origen: ";
+            cin >> origen;
+
+            cout << "Territorio destino: ";
+            cin >> destino;
+
+
+            Territorio& territorioOrigen = juego.consultarTablero().buscarTerritorio(origen);
+            Territorio& territorioDestino = juego.consultarTablero().buscarTerritorio(destino);
+
+
+            if(territorioOrigen.consultarColorPropietario() != colorJugador)
+            {
+                cout << "El territorio origen no pertenece al jugador" << endl;
+                return true;
+            }
+
+
+            if(territorioDestino.consultarColorPropietario() == colorJugador)
+            {
+                cout << "No se puede atacar un territorio propio" << endl;
+                return true;
+            }
+
+
+            if(!territorioOrigen.esVecino(destino))
+            {
+                cout << "Los territorios no son vecinos" << endl;
+                return true;
+            }
+
+
+            territorioDestino.agregarUnidades(-1);
+
+
+            if(territorioDestino.consultarUnidades() <= 0)
+            {
+                territorioDestino.asignarPropietario(colorJugador);
+                territorioDestino.agregarUnidades(1);
+            }
+
+
+            cout << "Ataque realizado correctamente" << endl;
+
             return true;
         }
-        if (tokens[0] == "obtener_unidades") {
-            if (tokens.size() != 2) {
+        
+        if(tokens[0] == "inicializar")
+        {
+            if(tokens.size() == 2 && tokens[1] == "archivo_inicio")
+            {
+                juego.inicializar();
+                ifstream archivo("archivo_inicio.txt");
+                if(archivo.is_open())
+                {
+                    int cantidadJugadores;
+                    archivo >> cantidadJugadores;
+                    for(int i = 0; i < cantidadJugadores; i++)
+                    {
+                        string nombre;
+                        string codigo;
+                        string color;
+                        archivo >> nombre;
+                        archivo >> codigo;
+                        archivo >> color;
+                        Jugador jugador(nombre, codigo, color);
+                        juego.agregarJugador(jugador);
+                    }
+                    string codigoTerritorio;
+                    string color;
+                    int unidades;
+                    while(archivo >> codigoTerritorio >> color >> unidades)
+                    {
+                        Territorio& territorio = juego.consultarTablero().buscarTerritorio(codigoTerritorio);
+                        territorio.asignarPropietario(color);
+                        territorio.agregarUnidades(unidades);
+                    }
+                    archivo.close();
+                }
+                cout << "El juego se ha inicializado correctamente" << endl;
+            }
+            else
+            {
+                cout << "Error de uso. Uso correcto: inicializar archivo_inicio" << endl;
+            }
+            return true;
+        }
+        if(tokens[0] == "obtener_unidades")
+        {
+            if(tokens.size() != 2)
+            {
                 cout << "Error de uso. Uso correcto: obtener_unidades nombre_jugador" << endl;
                 return true;
             }
-            cout << "Comando obtener_unidades: reconocido" << endl;
+
+            string colorJugador = "";
+            bool encontrado = false;
+
+            for(Jugador jugador : juego.consultarJugadores())
+            {
+                if(jugador.consultarNombre() == tokens[1])
+                {
+                    colorJugador = jugador.consultarColor();
+                    encontrado = true;
+                }
+            }
+
+            if(!encontrado)
+            {
+                cout << "Jugador no encontrado" << endl;
+                return true;
+            }
+
+            int unidades = 0;
+
+            list<Territorio*> territorios = juego.consultarTablero().consultarTerritorios();
+
+            for(Territorio* territorio : territorios)
+            {
+                if(territorio->consultarColorPropietario() == colorJugador)
+                {
+                    unidades += territorio->consultarUnidades();
+                }
+            }
+
+            cout << "Unidades obtenidas: "
+                << unidades
+                << endl;
+
             return true;
         }
-        if (tokens[0] == "fortificar") {
-            if (tokens.size() != 2) {
+        if(tokens[0] == "fortificar")
+        {
+            if(tokens.size() != 2)
+            {
                 cout << "Error de uso. Uso correcto: fortificar nombre_jugador" << endl;
                 return true;
             }
-            cout << "Comando fortificar: reconocido" << endl;
+
+
+            string nombreJugador = tokens[1];
+
+            string colorJugador = "";
+            bool encontrado = false;
+
+
+            for(Jugador jugador : juego.consultarJugadores())
+            {
+                if(jugador.consultarNombre() == nombreJugador)
+                {
+                    colorJugador = jugador.consultarColor();
+                    encontrado = true;
+                }
+            }
+
+
+            if(!encontrado)
+            {
+                cout << "Jugador no valido" << endl;
+                return true;
+            }
+
+
+            if(juego.consultarJugadorActual().consultarNombre() != nombreJugador)
+            {
+                cout << "Jugador fuera de turno" << endl;
+                return true;
+            }
+
+
+            string origen;
+            string destino;
+            int unidades;
+
+
+            cout << "Territorio origen: ";
+            cin >> origen;
+
+            cout << "Territorio destino: ";
+            cin >> destino;
+
+            cout << "Cantidad de unidades: ";
+            cin >> unidades;
+
+
+            Territorio& territorioOrigen = juego.consultarTablero().buscarTerritorio(origen);
+            Territorio& territorioDestino = juego.consultarTablero().buscarTerritorio(destino);
+
+
+            if(territorioOrigen.consultarColorPropietario() != colorJugador)
+            {
+                cout << "El territorio origen no pertenece al jugador" << endl;
+                return true;
+            }
+
+
+            if(territorioDestino.consultarColorPropietario() != colorJugador)
+            {
+                cout << "El territorio destino no pertenece al jugador" << endl;
+                return true;
+            }
+
+
+            if(!territorioOrigen.esVecino(destino))
+            {
+                cout << "Los territorios no son vecinos" << endl;
+                return true;
+            }
+
+
+            if(territorioOrigen.consultarUnidades() <= unidades)
+            {
+                cout << "No hay suficientes unidades para fortificar" << endl;
+                return true;
+            }
+
+
+            territorioOrigen.agregarUnidades(-unidades);
+            territorioDestino.agregarUnidades(unidades);
+
+
+            cout << "Fortificacion realizada correctamente" << endl;
+
             return true;
         }
-        if (tokens[0] == "guardar") {
-            if (tokens.size() != 2) {
+        if(tokens[0] == "guardar")
+        {
+            if(tokens.size() != 2)
+            {
                 cout << "Error de uso. Uso correcto: guardar nombre_archivo" << endl;
-                return true ;
+                return true;
             }
-            cout << "Comando guardar: reconocido" << endl;
+            ofstream archivo(tokens[1]);
+            if(!archivo.is_open())
+            {
+                cout << "No se pudo crear el archivo" << endl;
+                return true;
+            }
+            archivo << juego.consultarJugadores().size() << endl;
+            for(Jugador jugador : juego.consultarJugadores())
+            {
+                archivo << jugador.consultarNombre()
+                        << " "
+                        << jugador.consultarCodigo()
+                        << " "
+                        << jugador.consultarColor()
+                        << endl;
+            }
+            list<Territorio*> territorios = juego.consultarTablero().consultarTerritorios();
+            for(Territorio* territorio : territorios)
+            {
+                archivo << territorio->consultarCodigo()
+                        << " "
+                        << territorio->consultarColorPropietario()
+                        << " "
+                        << territorio->consultarUnidades()
+                        << endl;
+            }
+            archivo.close();
+            cout << "Juego guardado correctamente" << endl;
             return true;
         }
         if (tokens[0] == "guardar_comprimido") {
@@ -100,12 +428,177 @@ bool procesarComando(vector<string> tokens) {
             cout << "Comando guardar_comprimido: reconocido" << endl;
             return true;
         }
-        if (tokens[0] == "conquista_mas_barata") {
-            if (tokens.size() != 2) {
+        if(tokens[0] == "costo_conquista")
+        {
+            if(tokens.size() != 3)
+            {
+                cout << "Error de uso. Uso correcto: costo_conquista nombre_jugador territorio" << endl;
+                return true;
+            }
+
+            string nombreJugador = tokens[1];
+            string codigoTerritorio = tokens[2];
+
+            string colorJugador = "";
+            bool jugadorEncontrado = false;
+
+
+            for(Jugador jugador : juego.consultarJugadores())
+            {
+                if(jugador.consultarNombre() == nombreJugador)
+                {
+                    colorJugador = jugador.consultarColor();
+                    jugadorEncontrado = true;
+                }
+            }
+
+
+            if(!jugadorEncontrado)
+            {
+                cout << "Jugador no encontrado" << endl;
+                return true;
+            }
+
+
+            if(!juego.consultarTablero().existeTerritorio(codigoTerritorio))
+            {
+                cout << "Territorio no encontrado" << endl;
+                return true;
+            }
+
+
+            Territorio& territorio = juego.consultarTablero().buscarTerritorio(codigoTerritorio);
+
+
+            if(territorio.consultarColorPropietario() == colorJugador)
+            {
+                cout << "El territorio ya pertenece al jugador" << endl;
+                return true;
+            }
+
+
+            bool puedeAtacar = false;
+
+            list<Territorio*> territorios = juego.consultarTablero().consultarTerritorios();
+
+            for(Territorio* propio : territorios)
+            {
+                if(propio->consultarColorPropietario() == colorJugador)
+                {
+                    if(propio->esVecino(codigoTerritorio))
+                    {
+                        puedeAtacar = true;
+                    }
+                }
+            }
+
+
+            if(!puedeAtacar)
+            {
+                cout << "El territorio no es atacable desde los territorios del jugador" << endl;
+                return true;
+            }
+
+
+            cout << "Costo de conquista: "
+                << territorio.consultarUnidades()
+                << endl;
+
+
+            return true;
+        }
+        if(tokens[0] == "conquista_mas_barata")
+        {
+            if(tokens.size() != 2)
+            {
                 cout << "Error de uso. Uso correcto: conquista_mas_barata nombre_jugador" << endl;
                 return true;
             }
-            cout << "Comando conquista_mas_barata: reconocido" << endl;
+
+
+            string nombreJugador = tokens[1];
+            string colorJugador = "";
+            bool jugadorEncontrado = false;
+
+
+            for(Jugador jugador : juego.consultarJugadores())
+            {
+                if(jugador.consultarNombre() == nombreJugador)
+                {
+                    colorJugador = jugador.consultarColor();
+                    jugadorEncontrado = true;
+                }
+            }
+
+
+            if(!jugadorEncontrado)
+            {
+                cout << "Jugador no encontrado" << endl;
+                return true;
+            }
+
+
+            Territorio* mejorTerritorio = nullptr;
+            int menorCosto = 999999;
+
+
+            list<Territorio*> territorios = juego.consultarTablero().consultarTerritorios();
+
+
+            for(Territorio* territorio : territorios)
+            {
+                if(territorio->consultarColorPropietario() != colorJugador)
+                {
+                    bool puedeAtacar = false;
+
+
+                    for(Territorio* propio : territorios)
+                    {
+                        if(propio->consultarColorPropietario() == colorJugador)
+                        {
+                            if(propio->esVecino(territorio->consultarCodigo()))
+                            {
+                                puedeAtacar = true;
+                            }
+                        }
+                    }
+
+
+                    if(puedeAtacar)
+                    {
+                        int costo = territorio->consultarUnidades();
+
+
+                        if(costo < menorCosto)
+                        {
+                            menorCosto = costo;
+                            mejorTerritorio = territorio;
+                        }
+                    }
+                }
+            }
+
+
+            if(mejorTerritorio == nullptr)
+            {
+                cout << "No hay territorios disponibles para conquistar" << endl;
+                return true;
+            }
+
+
+            cout << "Conquista mas barata:" << endl;
+
+            cout << mejorTerritorio->consultarCodigo()
+                << " - "
+                << mejorTerritorio->consultarNombre()
+                << endl;
+
+
+            cout << "Costo: "
+                << menorCosto
+                << endl;
+
+
             return true;
         }
         if (tokens[0] == "ayuda") {

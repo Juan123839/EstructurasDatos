@@ -3,27 +3,30 @@
 #include <string>
 #include <list>
 #include "Carta.h"
+
 class Jugador {
 private:
-  std::string nombre;
-  std::string color;
-  std::list<Carta> cartas;
-  std::string estado;
-  bool conquisto;
+    std::string nombre;
+    std::string codigo;
+    std::string color;
+    std::list<std::string> territorios;
+    std::list<Carta> cartas;
+    int unidadesDisponibles;
 public:
-  Jugador();
-  Jugador(std::string nombre, std::string color);
-  std::string consultarNombre() const;
-  std::string consultarColor() const;
-  std::string consultarEstado() const;
-  void cambiarEstado(std::string nuevoEstado);
-  bool consultarConquistaEnTurno() const;
-  void registrarConquistaEnTurno(bool valor);
-  bool tieneCarta(const Carta& carta) const;
-  void agregarCarta(const Carta& carta);
-  void quitarCartas(const std::list<Carta>& grupo);
-  std::list<Carta> consultarCartas() const;
-  int contarCartas() const;
+    Jugador();
+    Jugador(std::string nombre, std::string codigo, std::string color);
+    std::string consultarNombre() const;
+    std::string consultarCodigo() const;
+    std::string consultarColor() const;
+    void agregarTerritorio(std::string codigoTerritorio);
+    void quitarTerritorio(std::string codigoTerritorio);
+    bool tieneTerritorio(std::string codigoTerritorio) const;
+    std::list<std::string> consultarTerritorios() const;
+    void agregarCarta(const Carta& carta);
+    void quitarCarta(int id);
+    std::list<Carta> consultarCartas() const;
+    void agregarUnidades(int cantidad);
+    void quitarUnidades(int cantidad);
+    int consultarUnidadesDisponibles() const;
 };
-#include "../src/Jugador.cxx"
 #endif

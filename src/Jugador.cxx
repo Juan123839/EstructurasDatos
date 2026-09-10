@@ -1,82 +1,103 @@
 #include "../Include/Jugador.h"
 using namespace std;
+
 Jugador::Jugador()
 {
-    nombre = ""; //jugador vacio, sin nombre todavia
+    nombre = "";
+    codigo = "";
     color = "";
-    estado = "espera";
-    conquisto = false;
+    unidadesDisponibles = 0;
 }
-Jugador::Jugador(string nombre, string color)
+
+Jugador::Jugador(string nombre, string codigo, string color)
 {
     this->nombre = nombre; //guarda el nombre del jugador
+    this->codigo = codigo; //guarda el codigo del jugador
     this->color = color; //guarda el color del jugador
-    estado = "espera"; //todo jugador nuevo empieza en espera
-    conquisto = false; //al empezar no ha conquistado nada en este turno
+    unidadesDisponibles = 0;
 }
+
 string Jugador::consultarNombre() const
 {
     return nombre;
 }
+
+string Jugador::consultarCodigo() const
+{
+    return codigo;
+}
+
 string Jugador::consultarColor() const
 {
     return color;
 }
-string Jugador::consultarEstado() const
+
+void Jugador::agregarTerritorio(string codigoTerritorio)
 {
-    return estado;
+    territorios.push_back(codigoTerritorio);
 }
-void Jugador::cambiarEstado(string nuevoEstado)
+
+void Jugador::quitarTerritorio(string codigoTerritorio)
 {
-    estado = nuevoEstado; //cambia la etapa del turno en la que esta el jugador
+    territorios.remove(codigoTerritorio);
 }
-bool Jugador::consultarConquistaEnTurno() const
+
+bool Jugador::tieneTerritorio(string codigoTerritorio) const
 {
-    return conquisto;
-}
-void Jugador::registrarConquistaEnTurno(bool valor)
-{
-    conquisto = valor;
-}
-bool Jugador::tieneCarta(const Carta& carta) const
-{
-    list<Carta>::const_iterator it;
-    for (it = cartas.begin(); it != cartas.end(); it++) //recorre toda la mano
+    for(string territorio : territorios)
     {
-        if (it->esIgual(carta))
+        if(territorio == codigoTerritorio)
         {
-            return true; //encontro esa carta en la mano
+            return true;
         }
     }
-    return false; //esa carta no esta en la mano
+    return false;
 }
+
+list<string> Jugador::consultarTerritorios() const
+{
+    return territorios;
+}
+
 void Jugador::agregarCarta(const Carta& carta)
 {
-    cartas.push_back(carta); //mete la carta al final de la mano
+    cartas.push_back(carta);
 }
-void Jugador::quitarCartas(const list<Carta>& grupo)
+
+void Jugador::quitarCarta(int id)
 {
-    list<Carta>::const_iterator itGrupo;
-    for (itGrupo = grupo.begin(); itGrupo != grupo.end(); itGrupo++) //recorre cada carta que hay que quitar
+    for(list<Carta>::iterator it = cartas.begin(); it != cartas.end(); it++)
     {
-        list<Carta>::iterator itMano;
-        for (itMano = cartas.begin(); itMano != cartas.end(); itMano++) //busca esa carta en la mano
+        if(it->consultarIdentificador() == id)
         {
-            if (itMano->esIgual(*itGrupo))
-            {
-                cartas.erase(itMano); //la saca de la mano
-                break;
-            }
+            cartas.erase(it);
+            return;
         }
     }
 }
+
 list<Carta> Jugador::consultarCartas() const
 {
     return cartas;
 }
-int Jugador::contarCartas() const
+
+void Jugador::agregarUnidades(int cantidad)
 {
-    return cartas.size();
+    if(cantidad > 0)
+    {
+        unidadesDisponibles = unidadesDisponibles + cantidad;
+    }
 }
 
+void Jugador::quitarUnidades(int cantidad)
+{
+    if(cantidad <= unidadesDisponibles)
+    {
+        unidadesDisponibles = unidadesDisponibles - cantidad;
+    }
+}
 
+int Jugador::consultarUnidadesDisponibles() const
+{
+    return unidadesDisponibles;
+}
