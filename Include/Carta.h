@@ -17,5 +17,4 @@ public:
   std::string consultarSimbolo() const;
   bool esIgual(const Carta& otra) const;
 };
-#include "../src/Carta.cxx"
 #endif

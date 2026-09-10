@@ -18,17 +18,20 @@ int Tropa::consultarCantidad() const
 {
     return cantidad;
 }
-int Tropa::consultarValorUnitario() const
-{
-    if (tipo == "infanteria") //una figura de infanteria vale 1 unidad
+int Tropa::consultarValorUnitario() const{
+    if(tipo == "infanteria")
     {
         return 1;
     }
-    if (tipo == "caballeria") //una figura de caballeria vale 5 unidades
+    if(tipo == "caballeria")
     {
         return 5;
     }
-    return 10; //si no es infanteria ni caballeria entonces es artilleria y vale 10
+    if(tipo == "artilleria")
+    {
+        return 10;
+    }
+    return 0;
 }
 int Tropa::consultarEquivalencia() const
 {
@@ -36,11 +39,17 @@ int Tropa::consultarEquivalencia() const
 }
 void Tropa::agregarFiguras(int n)
 {
-    cantidad = cantidad + n; //suma las figuras nuevas a las que ya habia
+    if(n > 0)
+    {
+        cantidad = cantidad + n;
+    }
 }
 void Tropa::quitarFiguras(int n)
 {
-    cantidad = cantidad - n; //resta las figuras que se van
+    if(n <= cantidad)
+    {
+        cantidad = cantidad - n;
+    }
 }
 bool Tropa::estaVacia() const
 {

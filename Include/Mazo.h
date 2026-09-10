@@ -17,5 +17,4 @@ public:
   void descartarCartas(const std::list<Carta>& grupo);
   int consultarUnidadesPorIntercambio() const;
 };
-#include "../src/Mazo.cxx"
 #endif

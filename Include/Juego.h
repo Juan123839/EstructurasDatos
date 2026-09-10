@@ -35,7 +35,4 @@ public:
   void avanzarTurno();
   int consultarEstadoDelJuego() const;
 };
-#include "../src/Juego.cxx"
-
-
 #endif

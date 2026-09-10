@@ -2,6 +2,7 @@
 #define TABLERO_H
 #include <string>
 #include <list>
+#include "Territorio.h"
 #include "Continente.h"
 class Tablero {
 private:
@@ -18,5 +19,4 @@ public:
   bool controlaTodoElTablero(std::string color) const;
   void conectarTerritorios(std::string codigo1, std::string codigo2);
 };
-#include "../src/Tablero.cxx"
 #endif

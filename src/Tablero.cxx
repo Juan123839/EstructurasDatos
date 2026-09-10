@@ -1,607 +1,243 @@
-#include "../include/Tablero.h"
-#include <iostream>
-
+#include "../Include/Tablero.h"
+using namespace std;
+#include <stdexcept>
 Tablero::Tablero(){
-
-    vector<string> vecinos;
-    // AMERICA DEL NORTE
-
-    vector<Territorio> americaNorte;
-
-    // 1.1 Alaska
-    vecinos.push_back("1.2");
-    vecinos.push_back("1.6");
-    vecinos.push_back("5.6");
-    americaNorte.push_back(
-        Territorio("1.1", "Alaska", vecinos));
-    vecinos.clear();
-
-    // 1.2 Alberta
-    vecinos.push_back("1.1");
-    vecinos.push_back("1.6");
-    vecinos.push_back("1.7");
-    vecinos.push_back("1.9");
-    americaNorte.push_back(
-        Territorio("1.2", "Alberta", vecinos));
-    vecinos.clear();
-
-    // 1.3 America Central
-    vecinos.push_back("1.4");
-    vecinos.push_back("1.9");
-    vecinos.push_back("2.4");
-    americaNorte.push_back(
-        Territorio("1.3", "America Central", vecinos));
-    vecinos.clear();
-
-    // 1.4 Estados Unidos Orientales
-    vecinos.push_back("1.3");
-    vecinos.push_back("1.7");
-    vecinos.push_back("1.8");
-    vecinos.push_back("1.9");
-    americaNorte.push_back(
-        Territorio("1.4", "Estados Unidos Orientales", vecinos));
-    vecinos.clear();
-
-    // 1.5 Groenlandia
-    vecinos.push_back("1.6");
-    vecinos.push_back("1.7");
-    vecinos.push_back("1.8");
-    vecinos.push_back("3.2");
-    americaNorte.push_back(
-        Territorio("1.5", "Groenlandia", vecinos));
-    vecinos.clear();
-
-    // 1.6 Territorio Noroccidental
-    vecinos.push_back("1.1");
-    vecinos.push_back("1.2");
-    vecinos.push_back("1.5");
-    vecinos.push_back("1.7");
-    americaNorte.push_back(
-        Territorio("1.6", "Territorio Noroccidental", vecinos));
-    vecinos.clear();
-
-    // 1.7 Ontario
-    vecinos.push_back("1.2");
-    vecinos.push_back("1.4");
-    vecinos.push_back("1.5");
-    vecinos.push_back("1.6");
-    vecinos.push_back("1.8");
-    vecinos.push_back("1.9");
-    americaNorte.push_back(
-        Territorio("1.7", "Ontario", vecinos));
-    vecinos.clear();
-
-    // 1.8 Quebec
-    vecinos.push_back("1.4");
-    vecinos.push_back("1.5");
-    vecinos.push_back("1.7");
-    americaNorte.push_back(
-        Territorio("1.8", "Quebec", vecinos));
-    vecinos.clear();
-
-    // 1.9 Estados Unidos Occidentales
-    vecinos.push_back("1.2");
-    vecinos.push_back("1.3");
-    vecinos.push_back("1.4");
-    vecinos.push_back("1.7");
-    americaNorte.push_back(
-        Territorio("1.9", "Estados Unidos Occidentales", vecinos));
-    vecinos.clear();
-    Continente continenteAmericaNorte(
-        "America del Norte", americaNorte, 5);
-    continentes.push_back(continenteAmericaNorte);
-
-    // AMERICA DEL SUR
-
-    vector<Territorio> americaSur;
-
-    // 2.1 Argentina
-
-    vecinos.push_back("2.2");
-    vecinos.push_back("2.3");
-
-    americaSur.push_back(
-        Territorio("2.1", "Argentina", vecinos));
-
-    vecinos.clear();
-
-    // 2.2 Brasil
-
-    vecinos.push_back("2.1");
-    vecinos.push_back("2.3");
-    vecinos.push_back("2.4");
-    vecinos.push_back("4.5");
-
-    americaSur.push_back(
-        Territorio("2.2", "Brasil", vecinos));
-
-    vecinos.clear();
-
-    // 2.3 Peru
-
-    vecinos.push_back("2.1");
-    vecinos.push_back("2.2");
-    vecinos.push_back("2.4");
-
-    americaSur.push_back(
-        Territorio("2.3", "Peru", vecinos));
-
-    vecinos.clear();
-
-    // 2.4 Venezuela
-
-    vecinos.push_back("1.3");
-    vecinos.push_back("2.2");
-    vecinos.push_back("2.3");
-
-    americaSur.push_back(
-        Territorio("2.4", "Venezuela", vecinos));
-
-    vecinos.clear();
-
-    Continente continenteAmericaSur(
-        "America del Sur", americaSur, 2);
-
-    continentes.push_back(continenteAmericaSur);
-
-    // EUROPA
-
-    vector<Territorio> europa;
-
-    // 3.1 Gran Bretana
-
-    vecinos.push_back("3.2");
-    vecinos.push_back("3.3");
-    vecinos.push_back("3.4");
-    vecinos.push_back("3.7");
-
-    europa.push_back(
-        Territorio("3.1", "Gran Bretana", vecinos));
-
-    vecinos.clear();
-
-    // 3.2 Islandia
-
-    vecinos.push_back("1.5");
-    vecinos.push_back("3.1");
-    vecinos.push_back("3.4");
-
-    europa.push_back(
-        Territorio("3.2", "Islandia", vecinos));
-
-    vecinos.clear();
-
-    // 3.3 Europa del Norte
-
-    vecinos.push_back("3.1");
-    vecinos.push_back("3.4");
-    vecinos.push_back("3.5");
-    vecinos.push_back("3.6");
-    vecinos.push_back("3.7");
-
-    europa.push_back(
-        Territorio("3.3", "Europa del Norte", vecinos));
-
-    vecinos.clear();
-
-    // 3.4 Escandinavia
-
-    vecinos.push_back("3.1");
-    vecinos.push_back("3.2");
-    vecinos.push_back("3.3");
-    vecinos.push_back("3.6");
-
-    europa.push_back(
-        Territorio("3.4", "Escandinavia", vecinos));
-
-    vecinos.clear();
-
-    // 3.5 Europa del Sur
-
-    vecinos.push_back("3.3");
-    vecinos.push_back("3.6");
-    vecinos.push_back("3.7");
-    vecinos.push_back("4.3");
-    vecinos.push_back("4.5");
-    vecinos.push_back("5.7");
-
-    europa.push_back(
-        Territorio("3.5", "Europa del Sur", vecinos));
-
-    vecinos.clear();
-
-    // 3.6 Ucrania
-
-    vecinos.push_back("3.3");
-    vecinos.push_back("3.4");
-    vecinos.push_back("3.5");
-    vecinos.push_back("5.1");
-    vecinos.push_back("5.7");
-    vecinos.push_back("5.11");
-
-    europa.push_back(
-        Territorio("3.6", "Ucrania", vecinos));
-
-    vecinos.clear();
-
-    // 3.7 Europa Occidental
-
-    vecinos.push_back("3.1");
-    vecinos.push_back("3.3");
-    vecinos.push_back("3.5");
-    vecinos.push_back("4.5");
-
-    europa.push_back(
-        Territorio("3.7", "Europa Occidental", vecinos));
-
-    vecinos.clear();
-
-    Continente continenteEuropa(
-        "Europa", europa, 5);
-
-    continentes.push_back(continenteEuropa);
-
-
-
-    // AFRICA
-
-    vector<Territorio> africa;
-
-    // 4.1 Congo
-
-    vecinos.push_back("4.2");
-    vecinos.push_back("4.5");
-    vecinos.push_back("4.6");
-
-    africa.push_back(
-        Territorio("4.1", "Congo", vecinos));
-
-    vecinos.clear();
-
-    // 4.2 Africa Oriental
-
-    vecinos.push_back("4.1");
-    vecinos.push_back("4.3");
-    vecinos.push_back("4.4");
-    vecinos.push_back("4.5");
-    vecinos.push_back("4.6");
-    vecinos.push_back("5.7");
-
-    africa.push_back(
-        Territorio("4.2", "Africa Oriental", vecinos));
-
-    vecinos.clear();
-
-    // 4.3 Egipto
-
-    vecinos.push_back("3.5");
-    vecinos.push_back("4.2");
-    vecinos.push_back("4.5");
-    vecinos.push_back("5.7");
-
-    africa.push_back(
-        Territorio("4.3", "Egipto", vecinos));
-
-    vecinos.clear();
-
-    // 4.4 Madagascar
-
-    vecinos.push_back("4.2");
-    vecinos.push_back("4.6");
-
-    africa.push_back(
-        Territorio("4.4", "Madagascar", vecinos));
-
-    vecinos.clear();
-
-    // 4.5 Africa del Norte
-
-    vecinos.push_back("2.2");
-    vecinos.push_back("3.5");
-    vecinos.push_back("3.7");
-    vecinos.push_back("4.1");
-    vecinos.push_back("4.2");
-    vecinos.push_back("4.3");
-
-    africa.push_back(
-        Territorio("4.5", "Africa del Norte", vecinos));
-
-    vecinos.clear();
-
-    // 4.6 Africa del Sur
-
-    vecinos.push_back("4.1");
-    vecinos.push_back("4.2");
-    vecinos.push_back("4.4");
-
-    africa.push_back(
-        Territorio("4.6", "Africa del Sur", vecinos));
-
-    vecinos.clear();
-
-    Continente continenteAfrica(
-        "Africa", africa, 3);
-
-    continentes.push_back(continenteAfrica);
-
-
-
-    // ASIA
-
-    vector<Territorio> asia;
-
-    // 5.1 Afghanistan
-
-    vecinos.push_back("3.6");
-    vecinos.push_back("5.2");
-    vecinos.push_back("5.3");
-    vecinos.push_back("5.7");
-    vecinos.push_back("5.11");
-
-    asia.push_back(
-        Territorio("5.1", "Afghanistan", vecinos));
-
-    vecinos.clear();
-
-    // 5.2 China
-
-    vecinos.push_back("5.1");
-    vecinos.push_back("5.3");
-    vecinos.push_back("5.8");
-    vecinos.push_back("5.9");
-    vecinos.push_back("5.10");
-    vecinos.push_back("5.11");
-
-    asia.push_back(
-        Territorio("5.2", "China", vecinos));
-
-    vecinos.clear();
-
-    // 5.3 India
-
-    vecinos.push_back("5.1");
-    vecinos.push_back("5.2");
-    vecinos.push_back("5.7");
-    vecinos.push_back("5.9");
-
-    asia.push_back(
-        Territorio("5.3", "India", vecinos));
-
-    vecinos.clear();
-
-    // 5.4 Irkutsk
-
-    vecinos.push_back("5.6");
-    vecinos.push_back("5.8");
-    vecinos.push_back("5.10");
-    vecinos.push_back("5.12");
-
-    asia.push_back(
-        Territorio("5.4", "Irkutsk", vecinos));
-
-    vecinos.clear();
-
-    // 5.5 Japon
-
-    vecinos.push_back("5.6");
-    vecinos.push_back("5.8");
-
-    asia.push_back(
-        Territorio("5.5", "Japon", vecinos));
-
-    vecinos.clear();
-
-    // 5.6 Kamchatka
-
-    vecinos.push_back("1.1");
-    vecinos.push_back("5.4");
-    vecinos.push_back("5.5");
-    vecinos.push_back("5.8");
-    vecinos.push_back("5.12");
-
-    asia.push_back(
-        Territorio("5.6", "Kamchatka", vecinos));
-
-    vecinos.clear();
-
-    // 5.7 Medio Oriente
-
-    vecinos.push_back("3.5");
-    vecinos.push_back("3.6");
-    vecinos.push_back("4.2");
-    vecinos.push_back("4.3");
-    vecinos.push_back("5.1");
-    vecinos.push_back("5.3");
-
-    asia.push_back(
-        Territorio("5.7", "Medio Oriente", vecinos));
-
-    vecinos.clear();
-
-    // 5.8 Mongolia
-
-    vecinos.push_back("5.2");
-    vecinos.push_back("5.4");
-    vecinos.push_back("5.5");
-    vecinos.push_back("5.6");
-    vecinos.push_back("5.10");
-
-    asia.push_back(
-        Territorio("5.8", "Mongolia", vecinos));
-
-    vecinos.clear();
-
-    // 5.9 Siam
-
-    vecinos.push_back("5.2");
-    vecinos.push_back("5.3");
-    vecinos.push_back("6.2");
-
-    asia.push_back(
-        Territorio("5.9", "Siam", vecinos));
-
-    vecinos.clear();
-
-    // 5.10 Siberia
-
-    vecinos.push_back("5.2");
-    vecinos.push_back("5.4");
-    vecinos.push_back("5.8");
-    vecinos.push_back("5.11");
-    vecinos.push_back("5.12");
-
-    asia.push_back(
-        Territorio("5.10", "Siberia", vecinos));
-
-    vecinos.clear();
-
-    // 5.11 Ural
-
-    vecinos.push_back("3.6");
-    vecinos.push_back("5.1");
-    vecinos.push_back("5.2");
-    vecinos.push_back("5.10");
-
-    asia.push_back(
-        Territorio("5.11", "Ural", vecinos));
-
-    vecinos.clear();
-
-    // 5.12 Yakutsk
-
-    vecinos.push_back("5.4");
-    vecinos.push_back("5.6");
-    vecinos.push_back("5.10");
-
-    asia.push_back(
-        Territorio("5.12", "Yakutsk", vecinos));
-
-    vecinos.clear();
-
-    Continente continenteAsia(
-        "Asia", asia, 7);
-
-    continentes.push_back(continenteAsia);
-
-
-
-    // AUSTRALIA
-
-    vector<Territorio> australia;
-
-    // 6.1 Australia Oriental
-
-    vecinos.push_back("6.3");
-    vecinos.push_back("6.4");
-
-    australia.push_back(
-        Territorio("6.1", "Australia Oriental", vecinos));
-
-    vecinos.clear();
-
-    // 6.2 Indonesia
-
-    vecinos.push_back("5.9");
-    vecinos.push_back("6.3");
-    vecinos.push_back("6.4");
-
-    australia.push_back(
-        Territorio("6.2", "Indonesia", vecinos));
-
-    vecinos.clear();
-
-    // 6.3 Nueva Guinea
-
-    vecinos.push_back("6.1");
-    vecinos.push_back("6.2");
-    vecinos.push_back("6.4");
-
-    australia.push_back(
-        Territorio("6.3", "Nueva Guinea", vecinos));
-
-    vecinos.clear();
-
-    // 6.4 Australia Occidental
-
-    vecinos.push_back("6.1");
-    vecinos.push_back("6.2");
-    vecinos.push_back("6.3");
-
-    australia.push_back(
-        Territorio("6.4", "Australia Occidental", vecinos));
-
-    vecinos.clear();
-
-    Continente continenteAustralia(
-        "Australia", australia, 2);
-
-    continentes.push_back(continenteAustralia);
 }
-vector<Continente> Tablero::consultarContinentes(){
+void Tablero::crearTablero(){
+    continentes.clear();
+    Continente americaNorte("America del Norte");    // crea los continentes
+    Continente americaSur("America del Sur");
+    Continente europa("Europa");
+    Continente africa("Africa");
+    Continente asia("Asia");
+    Continente australia("Australia");
+
+    Territorio alaska("AN1", "Alaska");// crea los territorios de america del norte
+    Territorio noroeste("AN2", "Territorio del Noroeste");
+    Territorio groenlandia("AN3", "Groenlandia");
+    Territorio alberta("AN4", "Alberta");
+    Territorio ontario("AN5", "Ontario");
+    Territorio quebec("AN6", "Quebec");
+    Territorio oeste("AN7", "Estados Unidos Occidental");
+    Territorio este("AN8", "Estados Unidos Oriental");
+    Territorio central("AN9", "America Central");
+    americaNorte.agregarTerritorio(alaska);
+    americaNorte.agregarTerritorio(noroeste);
+    americaNorte.agregarTerritorio(groenlandia);
+    americaNorte.agregarTerritorio(alberta);
+    americaNorte.agregarTerritorio(ontario);
+    americaNorte.agregarTerritorio(quebec);
+    americaNorte.agregarTerritorio(oeste);
+    americaNorte.agregarTerritorio(este);
+    americaNorte.agregarTerritorio(central);
+    
+    Territorio venezuela("AS1", "Venezuela");// crea los territorios de america del sur
+    Territorio brasil("AS2", "Brasil");
+    Territorio peru("AS3", "Peru");
+    Territorio argentina("AS4", "Argentina");
+    americaSur.agregarTerritorio(venezuela);
+    americaSur.agregarTerritorio(brasil);
+    americaSur.agregarTerritorio(peru);
+    americaSur.agregarTerritorio(argentina);
+    
+    Territorio islandia("EU1", "Islandia");// crea los territorios de europa
+    Territorio escandinavia("EU2", "Escandinavia");
+    Territorio ucrania("EU3", "Ucrania");
+    Territorio granBretana("EU4", "Gran Bretana");
+    Territorio europaOccidental("EU5", "Europa Occidental");
+    Territorio europaNorte("EU6", "Europa del Norte");
+    Territorio europaSur("EU7", "Europa del Sur");
+    europa.agregarTerritorio(islandia);
+    europa.agregarTerritorio(escandinavia);
+    europa.agregarTerritorio(ucrania);
+    europa.agregarTerritorio(granBretana);
+    europa.agregarTerritorio(europaOccidental);
+    europa.agregarTerritorio(europaNorte);
+    europa.agregarTerritorio(europaSur);
+    
+    Territorio norteAfrica("AF1", "Africa del Norte");// crea los territorios de africa
+    Territorio egipto("AF2", "Egipto");
+    Territorio oriental("AF3", "Africa Oriental");
+    Territorio congo("AF4", "Congo");
+    Territorio surAfrica("AF5", "Africa del Sur");
+    Territorio madagascar("AF6", "Madagascar");
+    africa.agregarTerritorio(norteAfrica);
+    africa.agregarTerritorio(egipto);
+    africa.agregarTerritorio(oriental);
+    africa.agregarTerritorio(congo);
+    africa.agregarTerritorio(surAfrica);
+    africa.agregarTerritorio(madagascar);
+        
+    Territorio ural("A1", "Ural");// crea los territorios de asia
+    Territorio siberia("A2", "Siberia");
+    Territorio yakutsk("A3", "Yakutsk");
+    Territorio kamchatka("A4", "Kamchatka");
+    Territorio japon("A5", "Japon");
+    Territorio mongolia("A6", "Mongolia");
+    Territorio china("A7", "China");
+    Territorio india("A8", "India");
+    Territorio medioOriente("A9", "Medio Oriente");
+    Territorio afganistan("A10", "Afganistan");
+    Territorio irkutsk("A11", "Irkutsk");
+    Territorio siam("A12", "Siam");
+    asia.agregarTerritorio(ural);
+    asia.agregarTerritorio(siberia);
+    asia.agregarTerritorio(yakutsk);
+    asia.agregarTerritorio(kamchatka);
+    asia.agregarTerritorio(japon);
+    asia.agregarTerritorio(mongolia);
+    asia.agregarTerritorio(china);
+    asia.agregarTerritorio(india);
+    asia.agregarTerritorio(medioOriente);
+    asia.agregarTerritorio(afganistan);
+    asia.agregarTerritorio(irkutsk);
+    asia.agregarTerritorio(siam);
+    
+    Territorio indonesia("AU1", "Indonesia");// crea los territorios de australia
+    Territorio nuevaGuinea("AU2", "Nueva Guinea");
+    Territorio australiaOccidental("AU3", "Australia Occidental");
+    Territorio australiaOriental("AU4", "Australia Oriental");
+    australia.agregarTerritorio(indonesia);
+    australia.agregarTerritorio(nuevaGuinea);
+    australia.agregarTerritorio(australiaOccidental);
+    australia.agregarTerritorio(australiaOriental);
+    
+    continentes.push_back(americaNorte);// agrega los continentes al tablero
+    continentes.push_back(americaSur);
+    continentes.push_back(europa);
+    continentes.push_back(africa);
+    continentes.push_back(asia);
+    continentes.push_back(australia);
+       
+    conectarTerritorios("AN1", "AN2"); // conecta america del norte
+    conectarTerritorios("AN1", "AN4");
+    conectarTerritorios("AN1", "A4");
+    conectarTerritorios("AN2", "AN3");
+    conectarTerritorios("AN2", "AN4");
+    conectarTerritorios("AN3", "AN6");
+    conectarTerritorios("AN4", "AN5");
+    conectarTerritorios("AN4", "AN7");
+    conectarTerritorios("AN5", "AN6");
+    conectarTerritorios("AN5", "AN7");
+    conectarTerritorios("AN5", "AN8");
+    conectarTerritorios("AN6", "AN8");
+    conectarTerritorios("AN7", "AN8");
+    conectarTerritorios("AN7", "AN9");
+    conectarTerritorios("AN8", "AN9");
+    
+    conectarTerritorios("AS1", "AS2");// conecta america del sur
+    conectarTerritorios("AS1", "AS3");
+    conectarTerritorios("AS2", "AS3");
+    conectarTerritorios("AS2", "AS4");
+    conectarTerritorios("AS3", "AS4");
+    
+    conectarTerritorios("EU1", "EU2");// conecta europa
+    conectarTerritorios("EU1", "AN3");
+    conectarTerritorios("EU2", "EU3");
+    conectarTerritorios("EU2", "EU6");
+    conectarTerritorios("EU3", "EU6");
+    conectarTerritorios("EU3", "EU7");
+    conectarTerritorios("EU3", "A9");
+    conectarTerritorios("EU4", "EU5");
+    conectarTerritorios("EU4", "EU6");
+    conectarTerritorios("EU5", "EU6");
+    conectarTerritorios("EU5", "EU7");
+    conectarTerritorios("EU7", "A9");
+    
+    conectarTerritorios("AF1", "AF2");// conecta africa
+    conectarTerritorios("AF1", "AF3");
+    conectarTerritorios("AF1", "EU7");
+    conectarTerritorios("AF2", "AF3");
+    conectarTerritorios("AF3", "AF4");
+    conectarTerritorios("AF3", "AF5");
+    conectarTerritorios("AF4", "AF5");
+    conectarTerritorios("AF5", "AF6");
+    conectarTerritorios("AF6", "AF3");
+    
+    conectarTerritorios("A1", "A2");// conecta asia
+    conectarTerritorios("A1", "A10");
+    conectarTerritorios("A2", "A3");
+    conectarTerritorios("A2", "A11");
+    conectarTerritorios("A3", "A4");
+    conectarTerritorios("A3", "A11");
+    conectarTerritorios("A4", "A5");
+    conectarTerritorios("A4", "A6");
+    conectarTerritorios("A5", "A6");
+    conectarTerritorios("A6", "A7");
+    conectarTerritorios("A7", "A8");
+    conectarTerritorios("A7", "A10");
+    conectarTerritorios("A8", "A9");
+    conectarTerritorios("A8", "AU1");
+    conectarTerritorios("A9", "A10");
+    conectarTerritorios("A9", "EU3");
+    conectarTerritorios("A11", "A12");
+    conectarTerritorios("A12", "AU1");
+    
+    conectarTerritorios("AU1", "AU2");// conecta australia
+    conectarTerritorios("AU2", "AU3");
+    conectarTerritorios("AU2", "AU4");
+    conectarTerritorios("AU3", "AU4");
+}
+list<Continente>& Tablero::consultarContinentes(){
     return continentes;
 }
-
-bool Tablero::existeTerritorio(string codigo){
-    for(int i = 0; i < continentes.size(); i++){
-        if(continentes[i].contieneTerritorio(codigo)){
+bool Tablero::existeTerritorio(string codigo) const{
+    for(const Continente& continente : continentes){
+        if(continente.contieneTerritorio(codigo)){
             return true;
         }
     }
     return false;
 }
-
 Territorio& Tablero::buscarTerritorio(string codigo){
-    for(int i = 0; i < continentes.size(); i++){
-        if(continentes[i].contieneTerritorio(codigo)){
-            return continentes[i].buscarTerritorio(codigo);
+    for(Continente& continente : continentes){
+        list<Territorio>& territorios = continente.consultarTerritorios();
+        for(Territorio& territorio : territorios){
+            if(territorio.consultarCodigo() == codigo){
+                return territorio;
+            }
         }
     }
-    return continentes[0].buscarTerritorio(codigo);
+    throw runtime_error("Territorio no encontrado");
 }
-
-void Tablero::asignarOcupacionInicial(string codigo, string color, int unidades){
-    Territorio& territorio = buscarTerritorio(codigo);
-    territorio.asignarPropietario(color);
-    territorio.agregarUnidades(unidades);
-}
-
-int Tablero::contarTerritoriosDeJugador(string color){
-    int contador = 0;
-
-    for(int i = 0; i < continentes.size(); i++){
-        contador += continentes[i].contarTerritoriosDeJugador(color);
+list<Territorio*> Tablero::consultarTerritorios(){
+    list<Territorio*> resultado;
+    for(Continente& continente : continentes){
+        list<Territorio>& territorios = continente.consultarTerritorios();
+        for(Territorio& territorio : territorios){
+            resultado.push_back(&territorio);
+        }
     }
-
+    return resultado;
+}
+int Tablero::contarTerritoriosDe(string color) const{
+    int contador = 0;
+    for(const Continente& continente : continentes){
+        contador += continente.contarTerritoriosDe(color);
+    }
     return contador;
 }
-
-int Tablero::calcularBonificacionPorContinentes(string color){
+int Tablero::calcularBonificacionPorContinentes(string color) const{
     int bonificacion = 0;
-
-    for(int i = 0; i < continentes.size(); i++){
-        if(continentes[i].esControladoPor(color)){
-            bonificacion += continentes[i].consultarBonificacion();
+    for(const Continente& continente : continentes){
+        if(continente.esControladoPor(color)){
+            bonificacion += continente.consultarBonificacion();
         }
     }
-
     return bonificacion;
 }
-
-bool Tablero::controlaTodoElTablero(string color){
-    return contarTerritoriosDeJugador(color) == 42;
-}
-
-void Tablero::mostrarTerritorios(){
-    for(int i = 0; i < continentes.size(); i++){
-
-        vector<Territorio> territorios = continentes[i].consultarTerritorios();
-
-        for(int j = 0; j < territorios.size(); j++){
-            cout << "Codigo: " << territorios[j].consultarCodigo() << endl;
-            cout << "Nombre: " << territorios[j].consultarNombre() << endl;
-            cout << "Propietario: " << territorios[j].consultarColorPropietario() << endl;
-            cout << "Unidades: " << territorios[j].consultarUnidades() << endl;
-            cout << endl;
+bool Tablero::controlaTodoElTablero(string color) const{
+    for(const Continente& continente : continentes){
+        if(!continente.esControladoPor(color)){
+            return false;
         }
     }
+    return true;
+}
+void Tablero::conectarTerritorios(string codigo1, string codigo2)
+{
+    Territorio& territorio1 = buscarTerritorio(codigo1);
+    Territorio& territorio2 = buscarTerritorio(codigo2);
+    territorio1.agregarVecino(codigo2);
+    territorio2.agregarVecino(codigo1);
 }

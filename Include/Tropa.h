@@ -16,5 +16,4 @@ public:
   void quitarFiguras(int n);
   bool estaVacia() const;
 };
-#include "../src/Tropa.cxx"
 #endif

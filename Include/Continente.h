@@ -19,5 +19,4 @@ public:
   bool esControladoPor(std::string color) const;
   int contarTerritoriosDe(std::string color) const;
 };
-#include "../src/Continente.cxx"
 #endif

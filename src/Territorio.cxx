@@ -1,42 +1,94 @@
-#include "../include/Territorio.h"
-Territorio::Territorio(string codigo, string nombre, vector<string> vecinos)
+#include "../Include/Territorio.h"
+using namespace std;
+Territorio::Territorio()
 {
-    this->codigo = codigo; //Asigna codigo al territorio
-    this->nombre = nombre; //Asigna nombre al territorio
-    this->vecinos = vecinos; //Asigna los territorios vecinos al territorio
-    colorPropietario = ""; //Asigna el color del propt del territorio, en este caso es vacio xq no tiene a nadie
-    unidades = 0; //se comienza con 0 unidades en cada territorio
+    codigo = "";
+    nombre = "";
+    colorPropietario = "";
 }
-string Territorio::consultarCodigo(){
+Territorio::Territorio(string codigo, string nombre)
+{
+    this->codigo = codigo; // asigna el codigo al territorio
+    this->nombre = nombre; // asigna el nombre al territorio
+    colorPropietario = ""; // inicia el territorio sin propietario
+}
+string Territorio::consultarCodigo() const
+{
     return codigo;
 }
-string Territorio::consultarNombre(){
+string Territorio::consultarNombre() const
+{
     return nombre;
 }
-string Territorio::consultarColorPropietario(){
+bool Territorio::tienePropietario() const
+{
+    return colorPropietario != "";
+}
+string Territorio::consultarColorPropietario() const
+{
     return colorPropietario;
 }
-int Territorio::consultarUnidades(){
-    return unidades;
-}
-void Territorio::asignarPropietario(string color){
+void Territorio::asignarPropietario(string color)
+{
     colorPropietario = color;
 }
-void Territorio::agregarUnidades(int cantidad){
-    unidades = unidades + cantidad;
+list<Tropa> Territorio::consultarTropas() const
+{
+    return tropas;
 }
-void Territorio::quitarUnidades(int cantidad){
-    unidades = unidades - cantidad;
+int Territorio::consultarUnidades() const
+{
+    int unidades = 0;
+    for(Tropa tropa : tropas)
+    {
+        unidades = unidades + tropa.consultarCantidad();
+    }
+    return unidades;
 }
-bool Territorio::esVecino(string codigoVecino){
-    for (int i = 0; i < vecinos.size(); i++){
-        if (vecinos[i] == codigoVecino){
+void Territorio::agregarUnidades(int n)
+{
+    if(n > 0)
+    {
+        if(tropas.empty())
+        {
+            Tropa tropa("infanteria", n);
+            tropas.push_back(tropa);
+        }
+        else
+        {
+            tropas.front().agregarFiguras(n);
+        }
+    }
+}
+void Territorio::quitarUnidades(int n)
+{
+    if(!tropas.empty() && n > 0)
+    {
+        tropas.front().quitarFiguras(n);
+    }
+}
+void Territorio::reagrupar()
+{
+}
+void Territorio::agregarVecino(string codigoVecino)
+{
+    if(!esVecino(codigoVecino))
+    {
+        vecinos.push_back(codigoVecino);
+    }
+}
+bool Territorio::esVecino(string codigoVecino) const
+{
+    for(string vecino : vecinos)
+    {
+        if(vecino == codigoVecino)
+        {
             return true;
         }
     }
     return false;
 }
-vector<string> Territorio::consultarVecinos(){
+list<string> Territorio::consultarVecinos() const
+{
     return vecinos;
 }
-

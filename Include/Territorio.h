@@ -27,5 +27,4 @@ public:
   bool esVecino(std::string codigoVecino) const;
   std::list<std::string> consultarVecinos() const;
 };
-#include "../src/Territorio.cxx"
 #endif
