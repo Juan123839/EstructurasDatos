@@ -47,16 +47,28 @@ int Territorio::consultarUnidades() const
 }
 void Territorio::agregarUnidades(int n)
 {
-    if(n > 0)
+    if(tropas.empty())
     {
-        if(tropas.empty())
+        if(n > 0)
         {
             Tropa tropa("infanteria", n);
             tropas.push_back(tropa);
         }
-        else
+    }
+    else
+    {
+        if(n > 0)
         {
             tropas.front().agregarFiguras(n);
+        }
+        else if(n < 0)
+        {
+            tropas.front().quitarFiguras(-n);
+
+            if(tropas.front().estaVacia())
+            {
+                tropas.clear();
+            }
         }
     }
 }

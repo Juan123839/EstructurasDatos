@@ -190,12 +190,16 @@ bool procesarComando(vector<string> tokens, Juego& juego) {
             }
 
 
-            territorioDestino.agregarUnidades(-1);
+            int unidadesDefensor = territorioDestino.consultarUnidades();
 
-
-            if(territorioDestino.consultarUnidades() <= 0)
+            if(unidadesDefensor > 1)
+            {
+                territorioDestino.agregarUnidades(-1);
+            }
+            else
             {
                 territorioDestino.asignarPropietario(colorJugador);
+
                 territorioDestino.agregarUnidades(1);
             }
 
